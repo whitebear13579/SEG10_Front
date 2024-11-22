@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
-//import ToggleMenu from './ToggleMenu';
+import ToggleMenu from './ToggleMenu';
 import '../assets/components/ChatAvatar.css';
-function ChatAvatar({ chatRoom }) {
-  const [user, setUser] = useState([
-    {id: 1, name: 'User A', friends: [], requests: []},
-  ]);
+function ChatAvatar() {
+
   const handleDisplay = async() => { //listchat
     try {
 
@@ -27,13 +25,12 @@ function ChatAvatar({ chatRoom }) {
         console.error('Error during fetch:', error);
         setResult(null);
       }
-};
+  };
   return (
     <div className="sidebar">
-      {/*<ToggleMenu />*/}
+      <ToggleMenu />
       <div className="chatroom-list">
         <p>聊天室</p> 
-
       </div>
     </div>
   );

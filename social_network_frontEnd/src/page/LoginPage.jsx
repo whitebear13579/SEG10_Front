@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
@@ -77,6 +78,7 @@ export default function Login() {
     },
     onError: (error) => {
       console.error('Login failed:', error);
+
     },
   });
 
@@ -86,6 +88,7 @@ export default function Login() {
       <div className="rightcover">
         <div className="loginBox">
           <h1 className="SignIN">Sign in</h1>
+
           <button
             onClick={loginWithGoogle}
             disabled={isLoading}
@@ -102,6 +105,7 @@ export default function Login() {
             />
             {isLoading ? 'Signing in...' : 'Sign in with Google'}
           </button>
+
         </div>
       </div>
     </div>

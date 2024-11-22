@@ -21,9 +21,8 @@ function HomePage(){
 
     return (
         <div className="container">
-        <h1>Welcome, {user.name}!</h1>
-        <p>Email: {user.id}</p>
-        <button onClick={handleLogout}>Logout</button>
+            <ChatAvatar />
+            <ChatMessage />
         </div>
     );
 }

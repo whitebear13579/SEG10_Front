@@ -4,6 +4,7 @@ import HomePage from './page/HomePage';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import { HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import './App.css';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   const [loginData, setLoginData] = useState(null);
@@ -14,18 +15,21 @@ function App() {
   };
   return (
     <GoogleOAuthProvider clientId='367618606560-nb7qi1pvcb8urbrlakaarptegisvs35d.apps.googleusercontent.com'>
-      <HashRouter>
-        <Routes>
-          <Route path="/login" element={<LoginPage  onSendResponse={handleLogin} />}  />
-          <Route path="/home" element={<HomePage />}  />  
-          {/*<Route path="/userInfo" element={<UserProfile />} />  
-          <Route path="/friendList" element={<FriendListPage responseData={responseData}/>} />   
-          <Route path="/friendRequest" element={<FriendRequestPage />} />  */}
+      <AuthProvider>
+        <HashRouter>
+          <Routes>
+            <Route path="/login" element={<LoginPage  onSendResponse={handleLogin} />}  />
+            <Route path="/home" element={<HomePage />}  />  
+            {/*<Route path="/userInfo" element={<UserProfile />} />  
+            <Route path="/friendList" element={<FriendListPage responseData={responseData}/>} />   
+            <Route path="/friendRequest" element={<FriendRequestPage />} />  */}
 
-          {/*for no defined page */}
-          <Route path="*" element={<Navigate to="/login"/>} />
-        </Routes>
-      </HashRouter>
+            {/*for no defined page */}
+            <Route path="*" element={<Navigate to="/login"/>} />
+          </Routes>
+        </HashRouter>
+      </AuthProvider>
+        
     </GoogleOAuthProvider>
   )
 }

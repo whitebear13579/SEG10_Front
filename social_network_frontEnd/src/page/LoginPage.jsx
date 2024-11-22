@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
-import { AuthContext } from "../context/AuthContext";
-import "../assets/page/login.css";
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
+import { AuthContext } from '../context/AuthContext';
+import '../assets/page/login.css';
 
-const API_BASE_URL = "https://swep.hnd1.zeabur.app/user/api";
+const API_BASE_URL = 'https://swep.hnd1.zeabur.app/user/api';
 
 export default function Login() {
   const { login } = useContext(AuthContext); // Access context
@@ -15,7 +15,7 @@ export default function Login() {
     try {
       const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
 
@@ -32,43 +32,37 @@ export default function Login() {
 
   const handleUser = async (email, name) => {
     try {
-      const user = await sendAPIRequest("user-get", "POST", { id: email });
+      const user = await sendAPIRequest('user-get', 'POST', { id: email });
       login(user); // Update context
-      navigate("/home"); // Navigate to home page
+      navigate('/home'); // Navigate to home page
     } catch {
-      console.log("User not found, adding user...");
+      console.log('User not found, adding user...');
       try {
-        const newUser = await sendAPIRequest("user-add", "POST", {
-          id: email,
-          name,
-        });
+        const newUser = await sendAPIRequest('user-add', 'POST', { id: email, name });
         login(newUser); // Update context
-        navigate("/home"); // Navigate to home page
+        navigate('/home'); // Navigate to home page
       } catch (error) {
-        console.error("Error during user addition:", error);
+        console.error('Error during user addition:', error);
       }
     }
   };
 
   const fetchGoogleUserInfo = async (accessToken) => {
     try {
-      const response = await fetch(
-        "https://www.googleapis.com/oauth2/v3/userinfo",
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
+      const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        method: 'GET',
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
 
       if (!response.ok) {
         throw new Error(`Google API error! Status: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("Google User Info:", data);
+      console.log('Google User Info:', data);
       await handleUser(data.email, data.name);
     } catch (error) {
-      console.error("Error fetching Google user info:", error);
+      console.error('Error fetching Google user info:', error);
     }
   };
 
@@ -82,7 +76,7 @@ export default function Login() {
       }
     },
     onError: (error) => {
-      console.error("Login failed:", error);
+      console.error('Login failed:', error);
     },
   });
 
@@ -96,18 +90,17 @@ export default function Login() {
             onClick={loginWithGoogle}
             disabled={isLoading}
             style={{
-              background: "white",
-              color: "black",
+              background: 'white',
+              color: 'black',
               padding: 10,
-              cursor: isLoading ? "not-allowed" : "pointer",
+              cursor: isLoading ? 'not-allowed' : 'pointer',
             }}
           >
             <img
               src="https://img.icons8.com/color/48/000000/google-logo.png"
               alt="Google Logo"
-              className="GoogleIcon"
             />
-            {isLoading ? "Signing in..." : "Sign in with Google"}
+            {isLoading ? 'Signing in...' : 'Sign in with Google'}
           </button>
         </div>
       </div>

@@ -63,12 +63,19 @@ function ChatMessage({ sender, content }) {
           <div className="chat-messages">
             <div className="chat-bubble left">不行，我還在外面</div>
             <div className="chat-bubble right">有空打球嗎</div>
+            {messages.map((message) => (
+            <div key={message.id}>{message.sender}: {message.text}</div>
+          ))}
           </div>
           <div className="chat-input">
-            <input type="text" placeholder="傳送訊息..." />
-            <button className='send-button'><box-icon type='solid' name='send'></box-icon></button>
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="傳送訊息..."
+            />
+            <button className='send-button' onClick={sendMessage}><box-icon type='solid' name='send'></box-icon></button>
           </div>
-          
           
         </div>
       )}

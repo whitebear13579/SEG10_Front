@@ -1,6 +1,9 @@
-import React from "react";
+import React ,{useContext} from "react";
+import { AuthContext } from '../context/AuthContext';
 import "../assets/components/ToggleMenu.css";
 function ToggleMenu() {
+  const { logout } = useContext(AuthContext); // Access user and logout from context
+
   const toggleMenu = () => {
     const menu = document.getElementById("side-menu");
     if (menu.style.width === "250px") {
@@ -8,6 +11,11 @@ function ToggleMenu() {
     } else {
       menu.style.width = "250px";
     }
+  };
+
+  const handleLogout = () => {
+    logout(); // Clear user from context and localStorage
+    navigate('/login'); // Redirect to login page
   };
   return (
     <div>
@@ -19,7 +27,7 @@ function ToggleMenu() {
         <a href="#userInfo">設定</a>
         <a href="#friendList">好友列表</a>
         <a href="#friendRequest">好友請求及搜尋</a>
-        <a href="#login">登出</a>
+        <a href="#login" onClick={handleLogout}>登出</a>
       </div>
     </div>
   );

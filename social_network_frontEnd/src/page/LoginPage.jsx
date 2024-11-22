@@ -102,6 +102,7 @@ export default function Login() {
             <img
               src="https://img.icons8.com/color/48/000000/google-logo.png"
               alt="Google Logo"
+              className='GoogleIcon'
             />
             {isLoading ? 'Signing in...' : 'Sign in with Google'}
           </button>

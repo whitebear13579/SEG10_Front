@@ -44,17 +44,25 @@ body, html {
     text-align: center; /* Center-aligns the content inside the login box */
     color: #000;
 }
-
 .loginBox h1 {
     margin-bottom: 300px;
 }
 
 
 .GoogleIcon {
-    position: relative;
-    top: 8px;
     height: 30px;
     width: 30px;
 }
 
 
+.GoogleIcon {
+    height: 30px;
+    width: 30px;
+}
+
+.loginBox button {
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: 85px;
+}

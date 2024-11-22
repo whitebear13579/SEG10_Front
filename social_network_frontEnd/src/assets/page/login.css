@@ -42,12 +42,16 @@ body, html {
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center; /* Center-aligns the content inside the login box */
+    color: #000;
 }
+
 .loginBox h1 {
     margin-bottom: 300px;
 }
 
-.login-box img {
-    width: 100px; /* Adjust the size as needed */
-    cursor: pointer;
+.GoogleIcon {
+    position: relative;
+    top: 8px;
+    height: 30px;
+    width: 30px;
 }

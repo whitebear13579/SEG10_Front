@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import "boxicons";
 import "../assets/components/chatMessage.css";
 function ChatMessage({ sender, content }) {
-  let data = JSON.parse(localStorage.getItem("loginData")); //userData
-  const [friends, setFriends] = useState("");
+  const { user } = useContext(AuthContext); // Access user and logout from context
+  const [friends, setFriends] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -14,13 +17,18 @@ function ChatMessage({ sender, content }) {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id: data.id }),
+
+            body: JSON.stringify({ id: user.id }),
           }
         );
         const result = await response.json();
-        setFriends(result.friends);
+        setFriends(result.friends || []); // Fallback to empty array if undefined
+        console.log(result.friends);
       } catch (error) {
         console.error("Error fetching child data:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetch completes
+
       }
     };
 
@@ -52,8 +60,13 @@ function ChatMessage({ sender, content }) {
     setNewMessage("");
   };
   return (
-    <>
-      {friends.length <= 0 ? (
+
+    <>{loading ? ( // Display loading while fetching data
+      <div className="chat-container">
+        <p>Loading friends...</p>
+      </div>
+      ) :friends.length <= 0 ? (
+
         <div className="chat-container">
           <h1>{sender}</h1>
           <p>Start Chat by add friend now!!</p>
@@ -65,12 +78,25 @@ function ChatMessage({ sender, content }) {
             <span className="chat-username">張小王 the first friend</span>
           </div>
           <div className="chat-messages">
-            <div className="chat-bubble left">不行，我還在外面</div>
-            <div className="chat-bubble right">有空打球嗎</div>
+            {messages.map((message) => (
+              <div key={message.id}>
+                <img src="penguin-png.png" alt="you" className="you" />
+                <div className="chat-bubble left">{" "}
+                  {message.text}....{message.id}
+                </div>
+              </div>
+            ))}
           </div>
           <div className="chat-input">
-            <input type="text" placeholder="傳送訊息..." />
-            <button className="send-button">
+
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="傳送訊息..."
+            />
+            <button className="send-button" onClick={sendMessage}>
+
               <box-icon type="solid" name="send"></box-icon>
             </button>
           </div>

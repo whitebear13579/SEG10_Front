@@ -1,36 +1,36 @@
-import React, {useState} from 'react';
-import ToggleMenu from './ToggleMenu';
-import '../assets/components/ChatAvatar.css';
+import React, { useContext, useState } from "react";
+import ToggleMenu from "./ToggleMenu";
+import "../assets/components/ChatAvatar.css";
+import { AuthContext } from "../context/AuthContext";
 function ChatAvatar() {
-
-  const handleDisplay = async() => { //listchat
-    try {
-
-        const response = await fetch('https://swep.hnd1.zeabur.app' , { 
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: email }) 
-        });
-    
-        if (!response.ok) { //then tell not found
-          notFound = true;
-        };
-        const data = await response.json();
-        setResult(data); // will change after next render
-        friend_id = data.id;//get search id
-        console.log("friendID and userID: " + friend_id + ", " + user_id);
-      } catch (error) {
-        console.error('Error during fetch:', error);
-        setResult(null);
-      }
+  //const {user} = useContext(AuthContext);
+  const [chats, setChats] = useState([]);
+  const handleClick = () => {
+    const tmpChat = {id: 1,  chat: "Never"};
+    setChats((prevChats) => [...prevChats, tmpChat]);
+    const tmpChat2 = { id: 2,  chat: "gonna"};
+    setChats((prevChats) => [...prevChats, tmpChat2]);
+    const tmpChat3 = { id: 3,  chat: "give"};
+    setChats((prevChats) => [...prevChats, tmpChat3]);
+    const tmpChat4 = { id: 4,  chat: "you"};
+    setChats((prevChats) => [...prevChats, tmpChat4]);
+    const tmpChat5 = { id: 5,  chat: "up"};
+    setChats((prevChats) => [...prevChats, tmpChat5]);
   };
   return (
     <div className="sidebar">
       <ToggleMenu />
       <div className="chatroom-list">
-        <p>聊天室</p> 
+        <h3>聊天室</h3>
+        <button onClick={handleClick}></button>
+        {chats.map((chat) => (
+              <div key={chat.id} >
+                <div className="chat">
+                  <img src="penguin-png.png" alt="you" className="you" />
+                  {chat.chat}
+                </div>
+              </div>
+            ))}
       </div>
     </div>
   );

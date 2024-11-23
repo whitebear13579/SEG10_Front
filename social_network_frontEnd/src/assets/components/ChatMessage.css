@@ -84,3 +84,7 @@
   .chat-input .send-button:hover {
     background-color: #0056b3;
   }
+
+.you{
+  width: 30px;
+}

@@ -19,14 +19,21 @@ body {
   background-color: #ffffff;
   padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 2px solid #000;
+  overflow-y: auto;
+  scrollbar-color: #C6C6C6 #ffffff;
 }
 
 .title {
   font-size: 2em;
   font-weight: bold;
   color: #333;
+}
+
+hr {
+  margin: 1px;
+  position: relative;
+  top: 20px;
 }
 
 .field {
@@ -60,15 +67,13 @@ body {
   border: #ddd;
 }
 
-hr {
-  margin: 1px;
-  position: relative;
-  top: 20px;
+.searchButton:focus {
+  outline: none;
 }
 
 .friend {
   position: relative;
-  top: 20px;
+  top: 18px;
   color: #000;
   font-size: large;
   display: flex;
@@ -104,4 +109,8 @@ hr {
 .sendInvite:hover {
   background-color: #EDECEC;
   border-color: #000;
+}
+
+.sendInvite:focus {
+  outline: none;
 }

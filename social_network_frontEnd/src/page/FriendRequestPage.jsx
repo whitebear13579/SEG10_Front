@@ -1,7 +1,9 @@
 import React from "react";
-export default function FriendRequestPage(){
-    return (
-        <>
-        </>
-    )
-};
+import FriendRequest from "../components/FriendRequest";
+export default function FriendRequestPage() {
+  return (
+    <>
+      <FriendRequest />
+    </>
+  );
+}

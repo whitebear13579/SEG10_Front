@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.FriendRequest-container {
+  width: 130vh;
+  height: 60vh;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #000;
+}
+
+.title {
+  font-size: 2em;
+  font-weight: bold;
+  color: #333;
+}
+
+hr {
+  margin: 1px;
+  position: relative;
+  top: 20px;
+}
+
+.friendrequest {
+  position: relative;
+  top: 18px;
+  color: #000;
+  font-size: large;
+  display: flex;
+  flex-direction: row;
+}
+
+.friendrequest img {
+  width: 60px;
+  height: 60px;
+}
+
+.friendName {
+  position: relative;
+  top: 20px;
+  left: 5px;
+}
+
+.agree {
+  width: 40px;
+  height: 40px;
+  background-image: url("images/agree.PNG");
+  background-size: cover;
+  cursor: pointer;
+  position: absolute;
+  right: 80px;
+  top: 10px;
+  border: #ddd;
+}
+
+.agree:hover {
+  background-image: url("images/agree_hover.png");
+  border: #ddd;
+}
+
+.disagree {
+  width: 40px;
+  height: 40px;
+  background-image: url("images/disagree.PNG");
+  background-size: cover;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  border: #ddd;
+}
+
+.disagree:hover {
+  background-image: url("images/disagree_hover.png");
+  border: #ddd;
+}

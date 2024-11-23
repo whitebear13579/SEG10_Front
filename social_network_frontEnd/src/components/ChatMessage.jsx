@@ -4,7 +4,8 @@ import "boxicons";
 import "../assets/components/chatMessage.css";
 function ChatMessage({ sender, content }) {
   const { user } = useContext(AuthContext); // Access user and logout from context
-  const [friends, setFriends] = useState("");
+  const [friends, setFriends] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -19,10 +20,12 @@ function ChatMessage({ sender, content }) {
           }
         );
         const result = await response.json();
-        setFriends(result.friends);
+        setFriends(result.friends || []); // Fallback to empty array if undefined
         console.log(result.friends);
       } catch (error) {
         console.error("Error fetching child data:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetch completes
       }
     };
 
@@ -54,8 +57,11 @@ function ChatMessage({ sender, content }) {
     setNewMessage("");
   };
   return (
-    <>
-      {friends.length <= 0 ? (
+    <>{loading ? ( // Display loading while fetching data
+      <div className="chat-container">
+        <p>Loading friends...</p>
+      </div>
+      ) :friends.length <= 0 ? (
         <div className="chat-container">
           <h1>{sender}</h1>
           <p>Start Chat by add friend now!!</p>

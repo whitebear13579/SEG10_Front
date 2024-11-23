@@ -15,6 +15,8 @@ body, html {
     display: flex;
     height: 100vh;
     width: 100vw;
+    background-color: #c6c6c6;
+    justify-content: center;
 }
 
 .leftcover, .rightcover {
@@ -22,8 +24,10 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    min-width: 50vw;
+    max-height: 80vh;
+    max-width: 34vw;
+    position: relative;
+    top: 85px;
 }
 
 .leftcover {
@@ -32,20 +36,19 @@ body, html {
 }
 
 .rightcover {
-    background-color: #c6c6c6;
+    background-color: #EDECEC;
 }
 .loginBox {
     width: 100%;
     max-width: 400px;
+    height: 50vh;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center; /* Center-aligns the content inside the login box */
     color: #000;
 }
 .loginBox h1 {
     margin-bottom: 300px;
+    font-size: 3.5em;
 }
 
 
@@ -56,13 +59,15 @@ body, html {
 
 
 .GoogleIcon {
-    height: 30px;
-    width: 30px;
+    height: 45px;
+    width: 45px;
 }
 
 .loginBox button {
     display: flex;
     align-items: center;
     position: relative;
-    left: 85px;
+    left: 78px;
+    bottom: 130px;
+    height: 45px;
 }

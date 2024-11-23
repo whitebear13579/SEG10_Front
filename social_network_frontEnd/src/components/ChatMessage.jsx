@@ -6,6 +6,7 @@ function ChatMessage({ sender, content }) {
   const { user } = useContext(AuthContext); // Access user and logout from context
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -16,6 +17,7 @@ function ChatMessage({ sender, content }) {
             headers: {
               "Content-Type": "application/json",
             },
+
             body: JSON.stringify({ id: user.id }),
           }
         );
@@ -26,6 +28,7 @@ function ChatMessage({ sender, content }) {
         console.error("Error fetching child data:", error);
       } finally {
         setLoading(false); // Set loading to false after fetch completes
+
       }
     };
 
@@ -57,11 +60,13 @@ function ChatMessage({ sender, content }) {
     setNewMessage("");
   };
   return (
+
     <>{loading ? ( // Display loading while fetching data
       <div className="chat-container">
         <p>Loading friends...</p>
       </div>
       ) :friends.length <= 0 ? (
+
         <div className="chat-container">
           <h1>{sender}</h1>
           <p>Start Chat by add friend now!!</p>
@@ -83,6 +88,7 @@ function ChatMessage({ sender, content }) {
             ))}
           </div>
           <div className="chat-input">
+
             <input
               type="text"
               value={newMessage}
@@ -90,6 +96,7 @@ function ChatMessage({ sender, content }) {
               placeholder="傳送訊息..."
             />
             <button className="send-button" onClick={sendMessage}>
+
               <box-icon type="solid" name="send"></box-icon>
             </button>
           </div>

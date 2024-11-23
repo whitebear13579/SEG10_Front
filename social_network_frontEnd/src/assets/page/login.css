@@ -1,17 +1,19 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body, html {
-    height: 100%;
-    width: 100%;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
+body,
+html {
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
 .Login {
+
     display: flex;
     height: 100vh;
     width: 100vw;
@@ -31,14 +33,17 @@ body, html {
 }
 
 .leftcover {
-    background-color: #247360;
-    color: #fff;
+  background-color: #247360;
+  color: #fff;
 }
 
 .rightcover {
+
     background-color: #EDECEC;
 }
+
 .loginBox {
+
     width: 100%;
     max-width: 400px;
     height: 50vh;
@@ -51,14 +56,12 @@ body, html {
     font-size: 3.5em;
 }
 
-
-.GoogleIcon {
-    height: 30px;
-    width: 30px;
+.loginBox h1 {
+  margin-bottom: 300px;
 }
 
-
 .GoogleIcon {
+
     height: 45px;
     width: 45px;
 }
@@ -70,4 +73,5 @@ body, html {
     left: 78px;
     bottom: 130px;
     height: 45px;
+
 }

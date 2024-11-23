@@ -4,6 +4,7 @@ import HomePage from './page/HomePage';
 import UserProfile from './page/UserProfilePage';
 import FriendListPage from './page/FriendListPage';
 import FriendRequestPage from './page/FriendRequestPage';
+import FriendSearchPage from './page/FriendSearchPage';
 import {GoogleOAuthProvider} from '@react-oauth/google';
 import { HashRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import './App.css';
@@ -25,8 +26,8 @@ function App() {
             <Route path="/home" element={<HomePage />}  />  
             <Route path="/userInfo" element={<UserProfile />} />  
             <Route path="/friendList" element={<FriendListPage/>} />   
-            <Route path="/friendRequest" element={<FriendRequestPage />} /> 
-
+            <Route path="/friendRequest" element={<FriendRequestPage />} />       
+            <Route path="/friendSearch" element={<FriendSearchPage />} />  
             {/*for no defined page */}
             <Route path="*" element={<Navigate to="/login"/>} />
           </Routes>

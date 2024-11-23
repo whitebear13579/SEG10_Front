@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext }  from '../context/AuthContext';
 import '../assets/page/login.css';
 
 const API_BASE_URL = 'https://swep.hnd1.zeabur.app/user/api';

@@ -1,11 +1,19 @@
 
 .sidebar {
     width: 20vw;
-    background-color: #f4c2c2;
+    background-color: #e6c7c7;
     padding: 20px;
   }
 .chatroom-list {
     width: 20vw;
-    padding: 10px 50px 100px 150px;
+    padding: 10px 50px 100px 40px;
     
+}
+.chat {
+  background-color: white;
+  position: relative;
+  margin-top: 5px;
+  
+  top:10px;
+
 }

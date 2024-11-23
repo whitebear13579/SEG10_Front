@@ -21,7 +21,7 @@ function App() {
       <AuthProvider>
         <HashRouter>
           <Routes>
-            <Route path="/login" element={<LoginPage  onSendResponse={handleLogin} />}  />
+            <Route path="/login" element={<LoginPage  />}  />
             <Route path="/home" element={<HomePage />}  />  
             <Route path="/userInfo" element={<UserProfile />} />  
             <Route path="/friendList" element={<FriendListPage/>} />   

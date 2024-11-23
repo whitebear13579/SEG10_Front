@@ -1,9 +1,10 @@
 import React ,{useContext} from "react";
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from "react-router-dom";
 import "../assets/components/ToggleMenu.css";
 function ToggleMenu() {
   const { logout } = useContext(AuthContext); // Access user and logout from context
-
+  const navigate = useNavigate();
   const toggleMenu = () => {
     const menu = document.getElementById("side-menu");
     if (menu.style.width === "250px") {

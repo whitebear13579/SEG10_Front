@@ -86,36 +86,22 @@ hr {
   left: 5px;
 }
 
-.agree {
-  width: 40px;
+.sendInvite {
+  width: 120px;
   height: 40px;
-  background-image: url("images/agree.PNG");
-  background-size: cover;
   cursor: pointer;
   position: relative;
+  top: 10px;
   left: 49vw;
-  top: 10px;
-  border: #ddd;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-color: #000;
 }
 
-.agree:hover {
-    background-image: url("images/agree_hover.png");
-    border: #ddd;
-}
-
-.disagree {
-    width: 40px;
-  height: 40px;
-  background-image: url("images/disagree.PNG");
-  background-size: cover;
-  cursor: pointer;
-  position: relative;
-  left: 50vw;
-  top: 10px;
-  border: #ddd;
-}
-
-.disagree:hover {
-    background-image: url("images/disagree_hover.png");
-    border: #ddd;
+.sendInvite:hover {
+  background-color: #EDECEC;
+  border-color: #000;
 }

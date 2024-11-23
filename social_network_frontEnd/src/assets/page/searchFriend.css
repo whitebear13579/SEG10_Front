@@ -90,13 +90,13 @@ hr {
   width: 120px;
   height: 40px;
   cursor: pointer;
-  position: relative;
+  position: absolute;
+  right: 20px;
   top: 10px;
-  left: 49vw;
   color: #000;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: ;
   background-color: #fff;
   border-color: #000;
 }

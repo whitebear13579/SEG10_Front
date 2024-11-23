@@ -10,6 +10,7 @@ body {
     top: 0;
     left: 0;
     z-index: 2;
+    color: #000;
 }
 .side-menu {
     height: 100%;

@@ -24,6 +24,79 @@ function SearchFriend() {
             {isInviting ? "等待中..." : "送出邀請"}
           </button>
         </div>
+        <hr></hr>
+        <div className="friend">
+          <img src="images/penguin-png.png" />
+          <div className="friendName">企鵝三號</div>
+          <button className="sendInvite" onClick={inviteClick}>
+            {isInviting ? "等待中..." : "送出邀請"}
+          </button>
+        </div>
+        <hr></hr>
+        <div className="friend">
+          <img src="images/penguin-png.png" />
+          <div className="friendName">企鵝三號</div>
+          <button className="sendInvite" onClick={inviteClick}>
+            {isInviting ? "等待中..." : "送出邀請"}
+          </button>
+        </div>
+        <hr></hr>
+        <div className="friend">
+          <img src="images/penguin-png.png" />
+          <div className="friendName">企鵝三號</div>
+          <button className="sendInvite" onClick={inviteClick}>
+            {isInviting ? "等待中..." : "送出邀請"}
+          </button>
+        </div>
+        <hr></hr>
+        <div className="friend">
+          <img src="images/penguin-png.png" />
+          <div className="friendName">企鵝三號</div>
+          <button className="sendInvite" onClick={inviteClick}>
+            {isInviting ? "等待中..." : "送出邀請"}
+          </button>
+        </div>
+        <hr></hr>
+        <div className="friend">
+          <img src="images/penguin-png.png" />
+          <div className="friendName">企鵝三號</div>
+          <button className="sendInvite" onClick={inviteClick}>
+            {isInviting ? "等待中..." : "送出邀請"}
+          </button>
+        </div>
+        <hr></hr>
+        <div className="friend">
+          <img src="images/penguin-png.png" />
+          <div className="friendName">企鵝三號</div>
+          <button className="sendInvite" onClick={inviteClick}>
+            {isInviting ? "等待中..." : "送出邀請"}
+          </button>
+        </div>
+        <hr></hr>
+        <div className="friend">
+          <img src="images/penguin-png.png" />
+          <div className="friendName">企鵝三號</div>
+          <button className="sendInvite" onClick={inviteClick}>
+            {isInviting ? "等待中..." : "送出邀請"}
+          </button>
+        </div>
+        <hr></hr>
+        <div className="friend">
+          <img src="images/penguin-png.png" />
+          <div className="friendName">企鵝三號</div>
+          <button className="sendInvite" onClick={inviteClick}>
+            {isInviting ? "等待中..." : "送出邀請"}
+          </button>
+        </div>
+        <hr></hr>
+        <div className="friend">
+          <img src="images/penguin-png.png" />
+          <div className="friendName">企鵝三號</div>
+          <button className="sendInvite" onClick={inviteClick}>
+            {isInviting ? "等待中..." : "送出邀請"}
+          </button>
+        </div>
+        <hr></hr>
       </div>
     </>
   );

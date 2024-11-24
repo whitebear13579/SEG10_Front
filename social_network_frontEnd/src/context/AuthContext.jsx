@@ -19,10 +19,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateUser = (newChatId) => {
-    setUser((prevUser) => ({
-      ...prevUser, // Preserve existing properties like ID
-      chats: [...prevUser.chats, newChatId], // Update the chats array
-    }));
+    setUser((prevUser) => {
+      const updatedUser = {
+        ...prevUser,
+        chats: [...prevUser.chats, newChatId],
+      };
+      localStorage.setItem('user', JSON.stringify(updatedUser)); // Persist changes
+      return updatedUser;
+    });
   }
 
   return (

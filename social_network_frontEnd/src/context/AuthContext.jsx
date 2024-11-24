@@ -18,8 +18,19 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
   };
 
+  const updateUser = (newChatId) => {
+    setUser((prevUser) => {
+      const updatedUser = {
+        ...prevUser,
+        chats: [...prevUser.chats, newChatId],
+      };
+      localStorage.setItem('user', JSON.stringify(updatedUser)); // Persist changes
+      return updatedUser;
+    });
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

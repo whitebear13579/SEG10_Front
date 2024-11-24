@@ -14,12 +14,12 @@ const AddChat = ({ onAddChat }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: chatName , members: [user.id, "demo@gmail.com"]}),
+        body: JSON.stringify({ name: chatName , members: [user.id, "friend@gmail.com"]}),
       });
 
       if (response.ok) {
         const newChat = await response.json();
-        onAddChat(newChat); // Notify parent of new chat
+        onAddChat(newChat); // Notify parent of new chat (object from chat service)
         setShowModal(false); // Close modal
         setChatName(''); // Reset input
       } else {

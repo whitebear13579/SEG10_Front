@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import JoinChat from "./JoinChat";
 import "boxicons";
 import "../assets/components/chatMessage.css";
 function ChatMessage({ sender, content }) {
@@ -76,6 +77,7 @@ function ChatMessage({ sender, content }) {
           <div className="chat-header">
             <img src="vite.svg" alt="Avatar" className="avatar" />
             <span className="chat-username">張小王 the first friend</span>
+            <JoinChat />
           </div>
           <div className="chat-messages">
             {messages.map((message) => (

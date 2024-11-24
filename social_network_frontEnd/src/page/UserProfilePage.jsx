@@ -1,38 +1,48 @@
-import React from 'react';
-import ToggleMenu from '../components/ToggleMenu';
-import '../assets/page/userProfile.css';
-function UserProfilePage(){
-    return(
-        <>
-            <ToggleMenu />
-            <div className="profile-container">
-
-                <header className="profile-header">
-                    
-                    <h1 className="title">Setting</h1>
-                </header>
-
-                <section className="profile-info">
-                    <div className="field">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name"/>
-                    </div>
-                    <div className="field">
-                        <label for="phone">Phone:</label>
-                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"/>
-                    </div>
-                    <div className="field">
-                        <label for="selfIntro">Self Intro:</label>
-                        <textarea id="selfIntro" name="selfIntro" rows="4" placeholder="Write a brief introduction"></textarea>
-                    </div>
-                </section>
-
-                <div className="save-container">
-                    <button className="save-button">Save Changes</button>
-                </div>
-            </div>
-        </>
-    );
+import React from "react";
+import ToggleMenu from "../components/ToggleMenu";
+import "../assets/page/userProfile.css";
+function UserProfilePage() {
+  return (
+    <>
+      <ToggleMenu />
+      <div className="profile-container">
+        <h1 className="title">Setting</h1>
+        <div className="setting">
+          <label for="name">姓名</label>
+          <input type="text" id="name" name="name" placeholder="文字輸入區" />
+        </div>
+        <div className="setting">
+          <label for="birthday">生日</label>
+          <input type="date" id="birthday"></input>
+        </div>
+        <div className="setting">
+          <label>性別</label>
+          <div className="sex">
+            <label for="man">男</label>
+            <input type="radio" name="sex" id="man"></input>
+            <label for="woman">女</label>
+            <input type="radio" name="sex" id="woman"></input>
+            <label for="lgbtq">非二元性別</label>
+            <input type="radio" name="sex" id="lgbtq"></input>
+            <label for="no">不願透漏</label>
+            <input type="radio" name="sex" id="no"></input>
+          </div>
+          <div className="setting">
+            <label for="selfIntro">個人簡介</label>
+            <textarea
+              id="selfIntro"
+              name="selfIntro"
+              rows="4"
+              placeholder="文字輸入區"
+            ></textarea>
+          </div>
+        </div>
+        <div className="save-container">
+          <button className="save-button">儲存變更</button>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default UserProfilePage;

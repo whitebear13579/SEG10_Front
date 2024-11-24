@@ -1,39 +1,49 @@
-import React, { useContext, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const AddChat = ({ onAddChat }) => {
   const [showModal, setShowModal] = useState(false);
-  const [chatName, setChatName] = useState('');
-  const {user} = useContext(AuthContext);
+  const [chatName, setChatName] = useState("");
+  const { user } = useContext(AuthContext);
 
   const handleAddChat = async () => {
     try {
       // Example API call to save chat room in the backend
-      const response = await fetch('https://swep.hnd1.zeabur.app/chat/api/chat-add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: chatName , members: [user.id, "friend@gmail.com"]}),
-      });
+      const response = await fetch(
+        "https://swep.hnd1.zeabur.app/chat/api/chat-add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: chatName,
+            members: [user.id],
+          }),
+        }
+      );
 
       if (response.ok) {
         const newChat = await response.json();
         onAddChat(newChat); // Notify parent of new chat (object from chat service)
         setShowModal(false); // Close modal
-        setChatName(''); // Reset input
+        setChatName(""); // Reset input
       } else {
         alert("create chat failed");
-        console.error('Failed to create chat room.');
+        console.error("Failed to create chat room.");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
   return (
     <div>
-        <box-icon name='plus' onClick={() => setShowModal(true)} style={{ cursor: 'pointer' }}></box-icon>
+      <box-icon
+        name="plus"
+        onClick={() => setShowModal(true)}
+        style={{ cursor: "pointer" }}
+      ></box-icon>
 
       {showModal && (
         <div className="modal">

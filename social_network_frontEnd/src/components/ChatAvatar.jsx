@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import ToggleMenu from "./ToggleMenu";
 import AddChat from "./AddChat";
+import Modal from "./Model";
+
 import "../assets/components/ChatAvatar.css";
 import { AuthContext } from "../context/AuthContext";
 
@@ -8,6 +10,7 @@ function ChatAvatar() {
   const { user, updateUser } = useContext(AuthContext);
   const [chatRoomsID, setChatRoomsID] = useState(user?.chats || []);
   const [chatRooms, setChatRooms] = useState([]); // Array of chat details
+  const [isModalOpen, setIsModalOpen] = useState(false); // For primary modal
 
   // Fetch chat details for all chat IDs in chatRoomsID
   const fetchChatDetails = async () => {
@@ -97,8 +100,7 @@ function ChatAvatar() {
       <ToggleMenu />
       <div className="chatroom-list">
         <h3>聊天室</h3>
-        <AddChat onAddChat={handleAddChat} />
-
+        <button onClick={() => setIsModalOpen(true)}><box-icon name='plus' style={{ cursor: 'pointer' }}></box-icon></button>
         {/* Display chat names */}
         {chatRooms.map((chat) => (
           <div key={chat.id}>
@@ -108,6 +110,13 @@ function ChatAvatar() {
             </div>
           </div>
         ))}
+
+        {/* Modal */}
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <h2>Primary Modal</h2>
+          <p>Nested content goes here.</p>
+          <button onClick={() => alert("Nested Action")}>Click Me</button>
+        </Modal>
       </div>
     </div>
   );

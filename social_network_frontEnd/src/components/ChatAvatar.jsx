@@ -1,26 +1,40 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ToggleMenu from "./ToggleMenu";
 import AddChat from "./AddChat";
 import "../assets/components/ChatAvatar.css";
 import { AuthContext } from "../context/AuthContext";
 function ChatAvatar() {
-  const {user} = useContext(AuthContext);
+  const {user, updateUser} = useContext(AuthContext);
   const [chatRooms, setChatRooms] = useState(user.chats);
-  const handleClick = () => {
-    const tmpChat = {id: 1,  name: "Never"};
-    setChatRooms((prevChats) => [...prevChats, tmpChat]);
-    const tmpChat2 = { id: 2,  name: "gonna"};
-    setChatRooms((prevChats) => [...prevChats, tmpChat2]);
-    const tmpChat3 = { id: 3,  name: "give"};
-    setChatRooms((prevChats) => [...prevChats, tmpChat3]);
-    const tmpChat4 = { id: 4,  name: "you"};
-    setChatRooms((prevChats) => [...prevChats, tmpChat4]);
-    const tmpChat5 = { id: 5,  name: "up"};
-    setChatRooms((prevChats) => [...prevChats, tmpChat5]);
-  };
-
+//, "demo@gmail.com"
+  useEffect(() => {
+    setChatRooms(user.chats);
+  }, [user])
   const handleAddChat = (newChat) => {
-    setChatRooms([...chatRooms, newChat]);
+    setChatRooms([...chatRooms, newChat.ID]);
+    console.log(user.ID);
+    //add chat id to user chats
+    console.log(JSON.stringify({user_id:user.ID, chat_id:newChat.ID}));
+    const UserAddChat = async() =>{
+      try {
+        const response = await fetch('https://swep.hnd1.zeabur.app/user/api/chat-add', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({user_id:user.ID, chat_id:newChat.ID}),
+        });
+        console.log(response);
+      } catch (error) {
+        alert("failed to add chat to user");
+        console.error('Error:', error);
+      }
+    }
+    alert("type of userchat id" + newChat.ID);
+    UserAddChat();
+    console.log("finish useraddchat");
+    updateUser(newChat.ID);
+    console.log("finish update");
   };
   return (
     <div className="sidebar">
@@ -31,10 +45,10 @@ function ChatAvatar() {
         
         {/*<button onClick={handleClick}></button>*/}
         {chatRooms.map((chat) => (
-              <div key={chat.ID} >
+              <div key={chat} >
                 <div className="chat">
                   <img src="penguin-png.png" className="you"/>
-                  {chat.Name},{chat.ID}
+                  {chat}
                 </div>
               </div>
         ))}

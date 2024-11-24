@@ -18,8 +18,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
   };
 
+  const updateUser = (newChatId) => {
+    setUser((prevUser) => ({
+      ...prevUser, // Preserve existing properties like ID
+      chats: [...prevUser.chats, newChatId], // Update the chats array
+    }));
+  }
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

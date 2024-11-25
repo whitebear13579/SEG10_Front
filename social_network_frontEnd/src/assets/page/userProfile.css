@@ -108,7 +108,7 @@ input[type="radio"]:checked + .gender {
   background-color: #247360;
   color: #fff;
   padding: 10px 20px;
-  font-size: 1em;
+  font-size: 1.25em;
   font-weight: bold;
   border: none;
   border-radius: 5px;

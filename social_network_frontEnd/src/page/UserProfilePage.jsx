@@ -35,51 +35,46 @@ function UserProfilePage() {
               <span className="gender">不願透漏</span>
             </label>
           </div>
-          <div className="setting">
-            <label for="nickname">顯示使用者名稱</label>
-            <input
-              type="text"
-              id="nickname"
-              name="nickname"
-              placeholder="文字輸入區"
-            />
-          </div>
-          <div className="setting">
-            <label for="phone">電話</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              placeholder="文字輸入區"
-            />
-          </div>
-          <div className="setting">
-            <label for="address">地址</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              placeholder="文字輸入區"
-            />
-          </div>
-          <div className="setting">
-            <label for="email">電子郵箱</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="文字輸入區"
-            />
-          </div>
-          <div className="setting">
-            <label for="selfIntro">個人簡介</label>
-            <textarea
-              id="selfIntro"
-              name="selfIntro"
-              rows="4"
-              placeholder="文字輸入區"
-            ></textarea>
-          </div>
+        </div>
+        <div className="setting">
+          <label for="nickname">顯示使用者名稱</label>
+          <input
+            type="text"
+            id="nickname"
+            name="nickname"
+            placeholder="文字輸入區"
+          />
+        </div>
+        <div className="setting">
+          <label for="phone">電話</label>
+          <input type="tel" id="phone" name="phone" placeholder="文字輸入區" />
+        </div>
+        <div className="setting">
+          <label for="address">地址</label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            placeholder="文字輸入區"
+          />
+        </div>
+        <div className="setting">
+          <label for="email">電子郵箱</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="文字輸入區"
+          />
+        </div>
+        <div className="setting">
+          <label for="selfIntro">個人簡介</label>
+          <textarea
+            id="selfIntro"
+            name="selfIntro"
+            rows="4"
+            placeholder="文字輸入區"
+          ></textarea>
         </div>
         <div className="save-container">
           <button className="save-button">儲存變更</button>

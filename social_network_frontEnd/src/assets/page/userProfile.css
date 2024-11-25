@@ -36,7 +36,7 @@
 .setting textarea {
   width: 100%;
   padding: 10px;
-  font-size: 1.25em;
+  font-size: 1em;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;
@@ -51,7 +51,7 @@
 
 .sex-setting input {
   padding: 10px;
-  font-size: 1.25em;
+  font-size: 1em;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;

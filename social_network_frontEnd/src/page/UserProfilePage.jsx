@@ -15,17 +15,61 @@ function UserProfilePage() {
           <label for="birthday">生日</label>
           <input type="date" id="birthday"></input>
         </div>
-        <div className="setting">
-          <label>性別</label>
+        <div className="sex-setting">
+          <label className="sexlabel">性別</label>
           <div className="sex">
-            <label for="man">男</label>
-            <input type="radio" name="sex" id="man"></input>
-            <label for="woman">女</label>
-            <input type="radio" name="sex" id="woman"></input>
-            <label for="lgbtq">非二元性別</label>
-            <input type="radio" name="sex" id="lgbtq"></input>
-            <label for="no">不願透漏</label>
-            <input type="radio" name="sex" id="no"></input>
+            <label for="man" className="radiobutton">
+              <input type="radio" name="sex" id="man"></input>
+              <span className="gender">男</span>
+            </label>
+            <label for="woman" className="radiobutton">
+              <input type="radio" name="sex" id="woman"></input>
+              <span className="gender">女</span>
+            </label>
+            <label for="lgbtq" className="radiobutton">
+              <input type="radio" name="sex" id="lgbtq"></input>
+              <span className="gender">非二元性別</span>
+            </label>
+            <label for="no" className="radiobutton">
+              <input type="radio" name="sex" id="no"></input>
+              <span className="gender">不願透漏</span>
+            </label>
+          </div>
+          <div className="setting">
+            <label for="nickname">顯示使用者名稱</label>
+            <input
+              type="text"
+              id="nickname"
+              name="nickname"
+              placeholder="文字輸入區"
+            />
+          </div>
+          <div className="setting">
+            <label for="phone">電話</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="文字輸入區"
+            />
+          </div>
+          <div className="setting">
+            <label for="address">地址</label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              placeholder="文字輸入區"
+            />
+          </div>
+          <div className="setting">
+            <label for="email">電子郵箱</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="文字輸入區"
+            />
           </div>
           <div className="setting">
             <label for="selfIntro">個人簡介</label>

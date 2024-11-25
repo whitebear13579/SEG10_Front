@@ -24,7 +24,7 @@
   margin-bottom: 10px;
 }
 .setting {
-    font-size: 1.25em;
+  font-size: 1.25em;
 }
 .setting label {
   font-weight: bold;
@@ -44,17 +44,62 @@
   vertical-align: middle;
   margin-bottom: 10px;
 }
-.sex {
-    display: flex;
-    flex-direction: row;
+
+.sex-setting {
+  font-size: 1.25em;
 }
-.sex label {
-    display: flex;
-    flex-direction: column;
+
+.sex-setting input {
+  padding: 10px;
+  font-size: 1.25em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #000;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+.sex {
+  display: flex;
+  flex-direction: row;
+}
+.sexlabel {
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 10px;
+  display: block;
 }
 input[type="radio"] {
-    transform: scale(0.5);
+  display: none;
 }
+.radiobutton {
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+.radiobutton .gender {
+  width: 120px;
+  height: 30px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  float: left;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+  color: #666;
+  margin-bottom: 10px;
+  display: block;
+  border-radius: 5px;
+}
+.radiobutton:hover .gender {
+  border-color: #000;
+}
+input[type="radio"]:checked + .gender {
+  background-color: #1d74c5;
+  border-color: #000;
+  color: #fff;
+}
+
 .save-container {
   text-align: center;
 }
@@ -68,6 +113,8 @@ input[type="radio"] {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 150px;
+  margin-top: 10px;
 }
 
 .save-button:hover {

@@ -93,7 +93,7 @@ export default function FriendList() {
         </div>
         <hr className="Line"></hr>
       </div>
-      <div>
+      {/* <div>
         {friends.length <= 0 ? (
           <p>No friends</p>
         ) : (
@@ -104,7 +104,7 @@ export default function FriendList() {
             ))}
           </ul>
         )}
-      </div>
+      </div> */}
     </>
   );
 }

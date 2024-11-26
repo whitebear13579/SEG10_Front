@@ -34,7 +34,11 @@ export default function FriendList() {
   return (
     <div>
       {friends.length <= 0 ? (
+        <>
+        <ToggleMenu />
         <p>No friends</p>
+        </>
+        
       ) : (
         // Display the friend list if there are friends
         <>

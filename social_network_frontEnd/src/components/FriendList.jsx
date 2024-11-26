@@ -32,79 +32,30 @@ export default function FriendList() {
 
   //display friend in list
   return (
-    <>
-      <ToggleMenu />
-      <div className="Friendlist-container">
-      <h1 className="title">好友列表</h1>
-      <hr></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝四號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝五號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝六號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝六號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝六號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝六號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝六號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝六號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝六號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝六號</div>
-        </div>
-        <hr className="Line"></hr>
-        <div className="friendlist">
-          <img src="images/penguin-png.png" />
-          <div className="friendName">企鵝六號</div>
-        </div>
-        <hr className="Line"></hr>
-      </div>
-      {/* <div>
-        {friends.length <= 0 ? (
-          <p>No friends</p>
-        ) : (
-          // Display the friend list if there are friends
-          <ul>
-            {friends.map((friend, index) => (
-              <li key={index}>{friend}</li>
-            ))}
-          </ul>
-        )}
-      </div> */}
-    </>
+    <div>
+      {friends.length <= 0 ? (
+        <p>No friends</p>
+      ) : (
+        // Display the friend list if there are friends
+        <>
+          <ToggleMenu />
+          <div className="Friendlist-container">
+            <h1 className="title">好友列表</h1>
+            <hr />
+            <div>
+              {friends.map((friend, index) => (
+                <>
+                <div key={index} className="friendlist">
+                  <img src="images/penguin-png.png" alt="Penguin" />
+                  <div className="friendName">{friend}</div>
+                </div>
+                <hr className="Line" />
+                </>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 }

@@ -112,7 +112,7 @@ function ChatAvatar() {
         ))}
 
         {/* Modal */}
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAddChat={handleAddChat}>
           <h2>Primary Modal</h2>
           <p>Nested content goes here.</p>
           <button onClick={() => alert("Nested Action")}>Click Me</button>

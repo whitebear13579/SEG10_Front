@@ -7,7 +7,6 @@ const JoinChat = ({ onAddChat }) => {
   const {user} = useContext(AuthContext);
 
   const handleJoinChat = async () => {
-    console.log(JSON.stringify({ chat_id: chatID, user_id: user.id}));
     try {
       // Example API call to save chat room in the backend
       const response = await fetch('https://swep.hnd1.zeabur.app/chat/api/member-add', {

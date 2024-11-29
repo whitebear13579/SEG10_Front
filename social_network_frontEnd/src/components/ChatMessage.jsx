@@ -3,94 +3,115 @@ import { AuthContext } from "../context/AuthContext";
 import ChatInfo from "./ChatInfo";
 import "boxicons";
 import "../assets/components/chatMessage.css";
-function ChatMessage({ sender, content }) {
-  const { user } = useContext(AuthContext); // Access user and logout from context
-  const [friends, setFriends] = useState([]);
+
+function ChatMessage({ chat }) {
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
-
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  console.log(chat);
+  useEffect(()=>{
+    setMessages("");
+  },[chat]);
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchMessages = async () => {
       try {
-        const response = await fetch(
-          "https://swep.hnd1.zeabur.app/user/api/user-get",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-
-            body: JSON.stringify({ id: user.id }),
-          }
-        );
-        const result = await response.json();
-        setFriends(result.friends || []); // Fallback to empty array if undefined
-        console.log(result.friends);
+        if (chat.Contents && chat.Contents.length > 0) {
+          const fetchedMessages = await Promise.all(
+            chat.Contents.map(async (messageId) => {
+              try {
+                const response = await fetch(
+                  "https://swep.hnd1.zeabur.app/msg/api/msg-get",
+                  {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: messageId }),
+                  }
+                );
+                if (response.ok) {
+                  return response.json();
+                } else {
+                  console.error(`Failed to fetch message with ID: ${messageId}`, await response.text());
+                  return null;
+                }
+              } catch (error) {
+                console.error("Error fetching message ID:", messageId, error);
+                return null;
+              }
+            })
+          );
+          setMessages(fetchedMessages.filter(Boolean)); // Remove null (failed fetches)
+        }
       } catch (error) {
-        console.error("Error fetching child data:", error);
+        console.error("Error fetching messages:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetch completes
-
+        setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+    fetchMessages();
+  }, [chat.Contents]);
 
+  
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
 
-    // Optimistically add the message to the UI
     const tempMessage = { id: Date.now(), text: newMessage, sender: "You" };
-    setMessages((prevMessages) => [...prevMessages, tempMessage]);
+    setMessages((prev) => [...prev, tempMessage]);
 
-    // Send the message to the server
     try {
-      await fetch("https://swep.hnd1.zeabur.app/msg/api/msg", {
-        //SaveMsg
+      const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: data.id, content: newMessage }),
+        body: JSON.stringify({ user_id: user.id, content: newMessage }),
       });
+      if(response.ok){
+        try {
+            const response2 = await fetch("https://swep.hnd1.zeabur.app/chat/api/msg-add", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id: chat.id, msg_id: response.id }),
+            });
+      
+            if (!response2.ok) {
+              console.error("Failed to send message:", await response2.text());
+              //delete msg from msg service
+            }
+          } catch (error) {
+            console.error("Error sending message:", error);
+          }
+      }
+      if (!response.ok) {
+        console.error("Failed to send message:", await response.text());
+      }
     } catch (error) {
-      console.error("Failed to send message:", error);
+      console.error("Error sending message:", error);
     }
-
-    // Clear the input
+    
     setNewMessage("");
   };
+
   return (
-
-    <>{loading ? ( // Display loading while fetching data
-      <div className="chat-container">
-        <p>Loading friends...</p>
-      </div>
-      ) :friends.length <= 0 ? (
-
-        <div className="chat-container">
-          <h1>{sender}</h1>
-          <p>Start Chat by add friend now!!</p>
-        </div>
-      ) : (
-        <div className="chat-container">
+    <div className="chat-container">
+      {loading ? (
+        <p>Loading messages...</p>
+      ) : messages.length > 0 ? (
+        <>
           <div className="chat-header">
-            <img src="vite.svg" alt="Avatar" className="avatar" />
-            <span className="chat-username">張小王 the first friend</span>
+            <span>{chat.Name}</span>
             <ChatInfo />
           </div>
           <div className="chat-messages">
             {messages.map((message) => (
               <div key={message.id}>
                 <img src="penguin-png.png" alt="you" className="you" />
-                <div className="chat-bubble left">{" "}
+                <div className="chat-bubble left">
                   {message.text}....{message.id}
                 </div>
               </div>
             ))}
           </div>
           <div className="chat-input">
-
             <input
               type="text"
               value={newMessage}
@@ -98,13 +119,30 @@ function ChatMessage({ sender, content }) {
               placeholder="傳送訊息..."
             />
             <button className="send-button" onClick={sendMessage}>
-
               <box-icon type="solid" name="send"></box-icon>
             </button>
           </div>
-        </div>
+        </>
+      ) : (
+        <>
+          <div className="chat-header">
+            <span>{chat.Name}</span>
+            <ChatInfo />
+          </div>
+          <div className="chat-input">
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="傳送訊息..."
+            />
+            <button className="send-button" onClick={sendMessage}>
+              <box-icon type="solid" name="send"></box-icon>
+            </button>
+          </div>
+        </>
       )}
-    </>
+    </div>
   );
 }
 

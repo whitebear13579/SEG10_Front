@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import ToggleMenu from "./ToggleMenu";
 import AddChat from "./AddChat";
 import Modal from "./Model";
-
+import ChatMessage from "./ChatMessage"; // Import ChatMessage
 import "../assets/components/ChatAvatar.css";
 import { AuthContext } from "../context/AuthContext";
 
-function ChatAvatar() {
+function ChatAvatar({ onSelectChat }) {
   const { user, updateUser } = useContext(AuthContext);
   const [chatRoomsID, setChatRoomsID] = useState(user?.chats || []);
   const [chatRooms, setChatRooms] = useState([]); // Array of chat details
@@ -17,7 +17,6 @@ function ChatAvatar() {
     try {
       const chatDetails = [];
       for (const chatID of chatRoomsID) {
-        console.log(JSON.stringify({ id: chatID }));
         const response = await fetch(`https://swep.hnd1.zeabur.app/chat/api/chat-get`, {
           method: "POST",
           headers: {
@@ -96,29 +95,33 @@ function ChatAvatar() {
   };
 
   return (
-    <div className="sidebar">
-      <ToggleMenu />
-      <div className="chatroom-list">
-        <h3>聊天室</h3>
-        <button onClick={() => setIsModalOpen(true)}><box-icon name='plus' style={{ cursor: 'pointer' }}></box-icon></button>
-        {/* Display chat names */}
-        {chatRooms.map((chat) => (
-          <div key={chat.id}>
-            <div className="chat">
-              <img src="penguin-png.png" className="you" alt="avatar" />
-              {chat.Name} {/* Display chat name */}
-            </div>
-          </div>
-        ))}
 
-        {/* Modal */}
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAddChat={handleAddChat}>
-          <h2>Primary Modal</h2>
-          <p>Nested content goes here.</p>
-          <button onClick={() => alert("Nested Action")}>Click Me</button>
-        </Modal>
+      <div className="sidebar">
+        <ToggleMenu />
+        <div className="chatroom-list">
+          <h3>聊天室</h3>
+          <button onClick={() => setIsModalOpen(true)}><box-icon name='plus' style={{ cursor: 'pointer' }}></box-icon></button>
+          {/* Display chat names */}
+          {chatRooms.map((chat) => (
+            <div key={chat.id} >
+              <button className="chat" onClick={() => onSelectChat(chat)}>
+                <img src="penguin-png.png" className="you" alt="avatar" />
+                {chat.Name} {/* Display chat name */}
+              </button>
+            </div>
+          ))}
+
+          {/* Modal */}
+          <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onAddChat={handleAddChat}>
+            <h2>Primary Modal</h2>
+            <p>Nested content goes here.</p>
+            <button onClick={() => alert("Nested Action")}>Click Me</button>
+          </Modal>
+        </div>
+        
       </div>
-    </div>
+
+    
   );
 }
 

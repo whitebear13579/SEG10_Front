@@ -28,7 +28,6 @@ export default function FriendList() {
 
     fetchData();
   }, []);
-  console.log(friends);
 
   //display friend in list
   return (

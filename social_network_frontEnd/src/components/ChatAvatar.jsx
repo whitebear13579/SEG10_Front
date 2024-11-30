@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import ToggleMenu from "./ToggleMenu";
 import AddChat from "./AddChat";
 import Modal from "./Model";
-
+import ChatMessage from "./ChatMessage"; // Import ChatMessage
 import "../assets/components/ChatAvatar.css";
 import { AuthContext } from "../context/AuthContext";
 
-function ChatAvatar() {
+function ChatAvatar({ onSelectChat }) {
   const { user, updateUser } = useContext(AuthContext);
   const [chatRoomsID, setChatRoomsID] = useState(user?.chats || []);
   const [chatRooms, setChatRooms] = useState([]); // Array of chat details
@@ -17,17 +17,13 @@ function ChatAvatar() {
     try {
       const chatDetails = [];
       for (const chatID of chatRoomsID) {
-        console.log(JSON.stringify({ id: chatID }));
-        const response = await fetch(
-          `https://swep.hnd1.zeabur.app/chat/api/chat-get`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: chatID }),
-          }
-        );
+        const response = await fetch(`https://swep.hnd1.zeabur.app/chat/api/chat-get`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: chatID }),
+        });
 
         if (!response.ok) {
           console.error(`Failed to fetch chat info for ID: ${chatID}`);

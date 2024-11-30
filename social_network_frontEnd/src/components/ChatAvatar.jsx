@@ -105,10 +105,10 @@ function ChatAvatar({ onSelectChat }) {
   };
   const toggleMenu = () => {
     const menu = document.getElementById("sideMenu");
-    if (menu.style.width === "270px") {
+    if (menu.style.width === "300px") {
       menu.style.width = "0";
     } else {
-      menu.style.width = "270px";
+      menu.style.width = "300px";
     }
   };
   return (

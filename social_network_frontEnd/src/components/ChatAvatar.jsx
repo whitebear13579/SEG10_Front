@@ -17,13 +17,16 @@ function ChatAvatar({ onSelectChat }) {
     try {
       const chatDetails = [];
       for (const chatID of chatRoomsID) {
-        const response = await fetch(`https://swep.hnd1.zeabur.app/chat/api/chat-get`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: chatID }),
-        });
+        const response = await fetch(
+          `https://swep.hnd1.zeabur.app/chat/api/chat-get`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: chatID }),
+          }
+        );
 
         if (!response.ok) {
           console.error(`Failed to fetch chat info for ID: ${chatID}`);
@@ -105,16 +108,20 @@ function ChatAvatar({ onSelectChat }) {
   };
   const toggleMenu = () => {
     const menu = document.getElementById("sideMenu");
-    if (menu.style.width === "300px") {
+    if (menu.style.width === "320px") {
       menu.style.width = "0";
     } else {
-      menu.style.width = "300px";
+      menu.style.width = "320px";
+
     }
   };
   return (
     <div className="sidebar">
       <div className="toggleChatRect">
-        <div className="toggle" onClick={toggleMenu}>☰</div>
+        <div className="toggle" onClick={toggleMenu}>
+          ☰
+        </div>
+
         <h3 className="chatRoom">聊天室</h3>
         <button onClick={() => setIsModalOpen(true)} className="plusButton">
           +
@@ -131,16 +138,16 @@ function ChatAvatar({ onSelectChat }) {
         </div>
       </div>
       <div className="displayChatName">
-        {/* Display chat names */}
-        {chatRooms.map((chat) => (
-          <div key={chat.id}>
-            <div className="chat">
-              <img src="penguin-png.png" alt="avatar" />
-              <span>{chat.Name} {/* Display chat name */}</span>
+      {/* Display chat names */}
+      {chatRooms.map((chat) => (
+        <div key={chat.id}>
+          <button className="chat" onClick={() => onSelectChat(chat)}>
+            <img src="penguin-png.png" alt="avatar" />
+            <span>{chat.Name} {/* Display chat name */}</span>
               <p>Hello world!</p>
-            </div>
-          </div>
-        ))}
+          </button>
+        </div>
+      ))}
       </div>
       <div className="homePageBottom">
         <img src="images/penguin-png.png" alt="Penguin" />

@@ -1,18 +1,17 @@
-
 .sidebar {
-    width: 25vw;
-    background-color: #F7F7F7;
-    padding: 20px;
-    color: #000;
+  width: 25vw;
+  background-color: #f7f7f7;
+  padding: 20px;
+  color: #000;
 }
 
 .toggleChatRect {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   display: flex;
   flex-direction: row;
   position: absolute;
   top: 15px;
-  left: 22px;
+  left: 37px;
   height: 65px;
   width: 20vw;
   align-items: center;
@@ -20,7 +19,7 @@
 }
 
 .plusButton {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   font-size: 30px;
   position: absolute;
   right: 0px;
@@ -61,7 +60,7 @@
   z-index: 1;
 }
 .sideMenu a {
-  padding: 15px 45px;
+  padding: 15px 60px;
   text-decoration: none;
   font-size: 18px;
   color: #333;
@@ -86,7 +85,9 @@
   left: 2px;
   max-height: 80vh;
   overflow-y: auto;
-  scrollbar-color: #C6C6C6 #ffffff;
+  scrollbar-color: #c6c6c6 #ffffff;
+  padding-right: 35px;
+  padding-left: 15px;
 }
 .chat {
   position: relative;
@@ -94,7 +95,7 @@
   background-color: #ffffff;
   width: 20vw;
   height: 70px;
-  padding: 10px;
+  padding-right: 20px;
   align-items: center;
   border-radius: 5px;
 }
@@ -102,7 +103,7 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   display: flex;
   flex-direction: row;
   width: 25vw;
@@ -126,12 +127,18 @@
 .displayChatName img {
   width: 50px;
   height: 50px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
 }
+
+
 
 .chat span {
   position: absolute;
   top: 10px;
   left: 65px;
+  color: #000;
 }
 
 .chat p {

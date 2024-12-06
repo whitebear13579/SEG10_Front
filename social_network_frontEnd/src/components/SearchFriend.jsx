@@ -7,6 +7,7 @@ function SearchFriend() {
   const inviteClick = () => {
     setIsInviting((isInviting) => !isInviting);
   };
+  //** */
   return (
     <>
       <ToggleMenu />

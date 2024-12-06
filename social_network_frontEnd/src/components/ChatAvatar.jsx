@@ -112,6 +112,7 @@ function ChatAvatar({ onSelectChat }) {
       menu.style.width = "0";
     } else {
       menu.style.width = "320px";
+
     }
   };
   return (
@@ -120,6 +121,7 @@ function ChatAvatar({ onSelectChat }) {
         <div className="toggle" onClick={toggleMenu}>
           ☰
         </div>
+
         <h3 className="chatRoom">聊天室</h3>
         <button onClick={() => setIsModalOpen(true)} className="plusButton">
           +

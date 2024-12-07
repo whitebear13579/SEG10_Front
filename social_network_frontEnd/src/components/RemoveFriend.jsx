@@ -1,5 +1,6 @@
 import React ,{useContext} from "react";
 import { AuthContext } from "../context/AuthContext";
+import "../assets/components/RemoveFriend.css";
 const RemoveFriend = ({ friendId , onFriendRemoved}) => {
     const { user} = useContext(AuthContext); // Access user and logout from context
     
@@ -32,7 +33,7 @@ const RemoveFriend = ({ friendId , onFriendRemoved}) => {
 
   return (
     <button onClick={handleRemoveFriend} className="remove-friend-btn">
-      Remove Friend
+      解除好友
     </button>
   );
 };

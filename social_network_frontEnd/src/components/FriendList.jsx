@@ -32,33 +32,30 @@ export default function FriendList() {
   //display friend in list
   return (
     <div>
-      {friends.length <= 0 ? (
-        <>
+      <>
         <ToggleMenu />
-        <p>No friends</p>
-        </>
-        
-      ) : (
-        // Display the friend list if there are friends
-        <>
-          <ToggleMenu />
-          <div className="Friendlist-container">
-            <h1 className="title">好友列表</h1>
-            <hr />
+        <div className="Friendlist-container">
+          <h1 className="title">好友列表</h1>
+          <hr />
+          {friends.length <= 0 ? (
+            <>
+              <div className="friendName">No friend</div>
+            </>
+          ) : (
             <div>
               {friends.map((friend, index) => (
                 <>
-                <div key={index} className="friendlist">
-                  <img src="images/penguin-png.png" alt="Penguin" />
-                  <div className="friendName">{friend}</div>
-                </div>
-                <hr className="Line" />
+                  <div key={index} className="friendlist">
+                    <img src="images/penguin-png.png" alt="Penguin" />
+                    <div className="friendName">{friend}</div>
+                  </div>
+                  <hr className="Line" />
                 </>
               ))}
             </div>
-          </div>
-        </>
-      )}
+          )}
+        </div>
+      </>
     </div>
   );
 }

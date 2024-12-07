@@ -159,9 +159,6 @@ function ChatAvatar({ onSelectChat }) {
         onClose={() => setIsModalOpen(false)}
         onAddChat={handleAddChat}
       >
-        <h2>Primary Modal</h2>
-        <p>Nested content goes here.</p>
-        <button onClick={() => alert("Nested Action")}>Click Me</button>
       </Modal>
     </div>
   );

@@ -3,4 +3,10 @@
     position: fixed;
     right: 0;
     top: 0;
+    outline: none;
+    border: none;
+}
+
+.chatInfoButton:focus {
+    outline: none;
 }

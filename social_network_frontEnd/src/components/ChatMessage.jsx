@@ -9,12 +9,10 @@ function ChatMessage({ chat }) {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
   //initial request
   useEffect(() => {
     setMessages([]);
     const getMsgs = async () => {
-        console.log(chat.Contents);
       try {
         if (chat.Contents && chat.Contents.length > 0) {
             const fetchedMessages = [];
@@ -145,7 +143,7 @@ function ChatMessage({ chat }) {
           <div className="chat-messages">
             {messages.map((message) => (
               <div key={message.id} className="chatMessages">
-                <img src="images/penguin-png.png" alt="you" className="you" />
+                <img src={user.picture} alt="you" className="you" />
                 <span>
                   {message.content}....{message.sender}
                 </span>

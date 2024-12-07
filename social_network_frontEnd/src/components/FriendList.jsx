@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import RemoveFriend from "./RemoveFriend";
 import ToggleMenu from "./ToggleMenu";
 import "../assets/page/friendList.css";
 
@@ -28,7 +29,11 @@ export default function FriendList() {
 
     fetchData();
   }, []);
-
+  const handleRemove = (friendId) => {
+    setFriends((prevFriends) =>
+      prevFriends.filter((friend) => friend !== friendId)
+    );
+  };
   //display friend in list
   return (
     <div>
@@ -45,11 +50,12 @@ export default function FriendList() {
             <div>
               {friends.map((friend, index) => (
                 <>
-                  <div key={index} className="friendlist">
-                    <img src="images/penguin-png.png" alt="Penguin" />
-                    <div className="friendName">{friend}</div>
-                  </div>
-                  <hr className="Line" />
+                <div key={index} className="friendlist">
+                  <img src="images/penguin-png.png" alt="Penguin" />
+                  <div className="friendName">{friend}...</div>
+                  <RemoveFriend friendId={friend} onFriendRemoved={handleRemove}/>
+                </div>
+                <hr className="Line" />
                 </>
               ))}
             </div>

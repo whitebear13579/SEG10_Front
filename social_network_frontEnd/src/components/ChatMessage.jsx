@@ -9,12 +9,10 @@ function ChatMessage({ chat }) {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
   //initial request
   useEffect(() => {
     setMessages([]);
     const getMsgs = async () => {
-        console.log(chat.Contents);
       try {
         if (chat.Contents && chat.Contents.length > 0) {
             const fetchedMessages = [];
@@ -134,7 +132,7 @@ function ChatMessage({ chat }) {
     <div className="chat-container">
       {loading ? (
         <p>Loading messages...</p>
-      ) : messages.length > 0 ? (
+      ) :  (
         <>
           <div className="chat-header">
             <span>{chat.Name}</span>
@@ -143,9 +141,9 @@ function ChatMessage({ chat }) {
           <div className="chat-messages">
             {messages.map((message) => (
               <div key={message.id}>
-                <img src="penguin-png.png" alt="you" className="you" />
+                <img src={user.picture} alt="you" className="you" />
                 <div className="chat-bubble left">
-                  {message.content}....{message.time}
+                  {message.content}....{message.sender}
                 </div>
               </div>
             ))}
@@ -162,26 +160,7 @@ function ChatMessage({ chat }) {
             </button>
           </div>
         </>
-      ) : (
-        <>
-          <div className="chat-header">
-            <span>{chat.Name}</span>
-            <ChatInfo />
-          </div>
-          <div className="chat-messages"></div>
-          <div className="chat-input">
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="傳送訊息..."
-            />
-            <button className="send-button" onClick={sendMessage}>
-              <box-icon type="solid" name="send"></box-icon>
-            </button>
-          </div>
-        </>
-      )}
+      ) }
     </div>
   );
 }

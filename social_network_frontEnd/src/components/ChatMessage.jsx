@@ -135,16 +135,18 @@ function ChatMessage({ chat }) {
       ) :  (
         <>
           <div className="chat-header">
+          <img src="images/penguin-png.png" alt="penguin" className="headerAvatar" />
             <span>{chat.Name}</span>
             <ChatInfo />
           </div>
+          <hr className="headerLine"/>
           <div className="chat-messages">
             {messages.map((message) => (
-              <div key={message.id}>
+              <div key={message.id} className="chatMessages">
                 <img src={user.picture} alt="you" className="you" />
-                <div className="chat-bubble left">
+                <span>
                   {message.content}....{message.sender}
-                </div>
+                </span>
               </div>
             ))}
           </div>

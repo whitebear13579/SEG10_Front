@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import ChatInfo from "./ChatInfo";
 import "boxicons";
@@ -9,9 +9,6 @@ function ChatMessage({ chat }) {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
-  const messageListRef = useRef(null);
-
   //initial request
   useEffect(() => {
     setMessages([]);
@@ -50,22 +47,7 @@ function ChatMessage({ chat }) {
     };
 
     getMsgs();
-    
   }, [chat]);
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (messageListRef.current) {
-        messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
-      }
-    }, 0); // 0ms delay, but ensures it runs after DOM update
-
-    return () => clearTimeout(timeoutId); // Cleanup on unmount
-  }, []);
-  useEffect(() => {
-    if (messageListRef.current) {
-      messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
-    }
-  }, [messages]);
   //long polling
   useEffect(() => {
     const fetchMessages = async () => {
@@ -157,9 +139,8 @@ function ChatMessage({ chat }) {
             <span>{chat.Name}</span>
             <ChatInfo />
           </div>
-
           <hr className="headerLine"/>
-          <div className="chat-messages" ref={messageListRef}>
+          <div className="chat-messages">
             {messages.map((message) => (
               <div key={message.id} className="chatMessages">
                 <img src={user.picture} alt="you" className="you" />

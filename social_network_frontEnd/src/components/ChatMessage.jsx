@@ -132,6 +132,9 @@ function ChatMessage({ chat }) {
               console.error("Failed to store message to chatroom:", await response2.text());
               //delete msg from msg service(not done yet)
             }
+            else{
+                // send msg to web socket
+            }
           } catch (error) {
             console.error("Error sending message:", error);
           }

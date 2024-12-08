@@ -38,6 +38,9 @@ function ChatAvatar({ onSelectChat }) {
       }
 
       setChatRooms(chatDetails); // Update chatRooms only after all data is fetched
+
+      // open websocket
+
     } catch (error) {
       console.error("Error fetching chat details:", error);
     }

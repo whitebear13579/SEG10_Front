@@ -92,7 +92,6 @@ function ChatAvatar({ onSelectChat }) {
 
         if (chatResponse.ok) {
           const newChatDetails = await chatResponse.json();
-          //setChatRooms((prev) => [...prev, newChatDetails]); // Add new chat details
         }
       } catch (error) {
         alert("Failed to add chat to user");

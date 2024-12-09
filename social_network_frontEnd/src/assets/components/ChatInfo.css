@@ -1,15 +1,15 @@
 .chatInfo-overlay {
     z-index: 1000;
     position: fixed;
-    left: 18vw;
-    top: 9vh;
+    right: 1vw;
+    top: 5vh;
     border: 0.5px solid #000;
     border-radius: 5px;
   }
   
   .chatInfo-content {
     background: white;
-    text-align: center;
+    width: 160px;
   }
   
   .chatInfo-content hr {

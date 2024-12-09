@@ -1,6 +1,9 @@
 import React, { useContext, useState,useEffect,useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import "../assets/components/ChatInfo.css";
+import ShowChatRoomId from "./ShowChatRoomId";
+import EditChatRoom from "./EditChatRoom";
+import DeleteChatRoom from "./DeleteChatRoom";
 const ChatInfo = ({ isChatInfoOpen, onCloseChatInfo }) => {
   if (!isChatInfoOpen) return null;
   const { user } = useContext(AuthContext);
@@ -21,8 +24,11 @@ const ChatInfo = ({ isChatInfoOpen, onCloseChatInfo }) => {
     <div>
       <div className="chatInfo-overlay">
         <div className="chatInfo-content" ref={ChatInfoCloseRef}>
-          <h2>join Chat ID:</h2>
-          <label>{user.chats[0]}</label>
+        <ShowChatRoomId />
+        <hr />
+        <EditChatRoom />
+        <hr />
+        <DeleteChatRoom />
         </div>
       </div>
     </div>

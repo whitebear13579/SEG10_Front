@@ -95,3 +95,16 @@
   .chat-input .send-button:focus {
     outline: none;
   }
+
+  .chatInfoButton {
+    background-color: #FFFFFF;
+    position: fixed;
+    right: 0;
+    top: 0;
+    outline: none;
+    border: none;
+}
+
+.chatInfoButton:focus {
+    outline: none;
+}

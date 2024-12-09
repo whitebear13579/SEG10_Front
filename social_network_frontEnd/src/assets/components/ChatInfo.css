@@ -1,12 +1,19 @@
-.chatInfoButton {
-    background-color: #FFFFFF;
+.chatInfo-overlay {
+    z-index: 1000;
     position: fixed;
-    right: 0;
+    left: 18vw;
+    top: 9vh;
+    border: 0.5px solid #000;
+    border-radius: 5px;
+  }
+  
+  .chatInfo-content {
+    background: white;
+    text-align: center;
+  }
+  
+  .chatInfo-content hr {
+    position: relative;
     top: 0;
-    outline: none;
-    border: none;
-}
-
-.chatInfoButton:focus {
-    outline: none;
-}
+  }
+  

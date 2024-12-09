@@ -9,7 +9,7 @@ function ChatMessage({ chat }) {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
+  const [isChatInfoOpen, setChatInfoOpen] = useState(false);
   const messageListRef = useRef(null);
 
   //initial request
@@ -18,30 +18,36 @@ function ChatMessage({ chat }) {
     const getMsgs = async () => {
       try {
         if (chat.Contents && chat.Contents.length > 0) {
-            const fetchedMessages = [];
-            
-            for (const msgId of chat.Contents) {
-              try {
-                const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg-get", {
+          const fetchedMessages = [];
+
+          for (const msgId of chat.Contents) {
+            try {
+              const response = await fetch(
+                "https://swep.hnd1.zeabur.app/msg/api/msg-get",
+                {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ id: msgId }),
-                });
-          
-                if (response.ok) {
-                  const message = await response.json();
-                  fetchedMessages.push(message);
-                } else {
-                  console.error(`Failed to fetch message with ID ${msgId}:`, await response.text());
                 }
-              } catch (error) {
-                console.error(`Error fetching message with ID ${msgId}:`, error);
+              );
+
+              if (response.ok) {
+                const message = await response.json();
+                fetchedMessages.push(message);
+              } else {
+                console.error(
+                  `Failed to fetch message with ID ${msgId}:`,
+                  await response.text()
+                );
               }
+            } catch (error) {
+              console.error(`Error fetching message with ID ${msgId}:`, error);
             }
-            setMessages(fetchedMessages);
-          } else {
-            console.log("No messages to fetch.");
           }
+          setMessages(fetchedMessages);
+        } else {
+          console.log("No messages to fetch.");
+        }
       } catch (error) {
         console.error("Error fetching messages:", error);
       } finally {
@@ -50,7 +56,6 @@ function ChatMessage({ chat }) {
     };
 
     getMsgs();
-    
   }, [chat]);
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -85,7 +90,10 @@ function ChatMessage({ chat }) {
                 if (response.ok) {
                   return response.json();
                 } else {
-                  console.error(`Failed to fetch message with ID: ${messageId}`, await response.text());
+                  console.error(
+                    `Failed to fetch message with ID: ${messageId}`,
+                    await response.text()
+                  );
                   return null;
                 }
               } catch (error) {
@@ -106,35 +114,42 @@ function ChatMessage({ chat }) {
     fetchMessages();
   }, [chat.Contents]);
 
-  
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
 
     try {
-      const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg-create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: user.id, content: newMessage }),
-      });
-      if(response.ok){
-        
+      const response = await fetch(
+        "https://swep.hnd1.zeabur.app/msg/api/msg-create",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_id: user.id, content: newMessage }),
+        }
+      );
+      if (response.ok) {
         const data = await response.json();
         console.log(data);
         setMessages((prev) => [...prev, data]);
         try {
-            const response2 = await fetch("https://swep.hnd1.zeabur.app/chat/api/msg-add", {
+          const response2 = await fetch(
+            "https://swep.hnd1.zeabur.app/chat/api/msg-add",
+            {
               method: "PATCH",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ id: chat.ID, msg_id: data.id }),
-            });
-      
-            if (!response2.ok) {
-              console.error("Failed to store message to chatroom:", await response2.text());
-              //delete msg from msg service(not done yet)
             }
-          } catch (error) {
-            console.error("Error sending message:", error);
+          );
+
+          if (!response2.ok) {
+            console.error(
+              "Failed to store message to chatroom:",
+              await response2.text()
+            );
+            //delete msg from msg service(not done yet)
           }
+        } catch (error) {
+          console.error("Error sending message:", error);
+        }
       }
       if (!response.ok) {
         console.error("Failed to send message:", await response.text());
@@ -142,7 +157,7 @@ function ChatMessage({ chat }) {
     } catch (error) {
       console.error("Error sending message:", error);
     }
-    
+
     setNewMessage("");
   };
 
@@ -150,15 +165,24 @@ function ChatMessage({ chat }) {
     <div className="chat-container">
       {loading ? (
         <p>Loading messages...</p>
-      ) :  (
+      ) : (
         <>
           <div className="chat-header">
-          <img src="images/penguin-png.png" alt="penguin" className="headerAvatar" />
+            <img
+              src="images/penguin-png.png"
+              alt="penguin"
+              className="headerAvatar"
+            />
             <span>{chat.Name}</span>
-            <ChatInfo />
+            <button
+              onClick={() => setChatInfoOpen(true)}
+              className="chatInfoButton"
+            >
+              <box-icon type="solid" name="edit"></box-icon>
+            </button>
           </div>
 
-          <hr className="headerLine"/>
+          <hr className="headerLine" />
           <div className="chat-messages" ref={messageListRef}>
             {messages.map((message) => (
               <div key={message.id} className="chatMessages">
@@ -180,8 +204,12 @@ function ChatMessage({ chat }) {
               <box-icon type="solid" name="send"></box-icon>
             </button>
           </div>
+          <ChatInfo
+            isChatInfoOpen={isChatInfoOpen}
+            onCloseChatInfo={() => setChatInfoOpen(false)}
+          ></ChatInfo>
         </>
-      ) }
+      )}
     </div>
   );
 }

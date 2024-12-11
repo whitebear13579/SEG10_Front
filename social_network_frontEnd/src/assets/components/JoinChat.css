@@ -1,0 +1,16 @@
+.joinChatroom {
+  background-color: #fff;
+  color: #000;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+}
+
+.joinChatroom:hover {
+  border: none;
+  background-color: #d9d9d9;
+}
+
+.joinChatroom:focus {
+  outline: none;
+}

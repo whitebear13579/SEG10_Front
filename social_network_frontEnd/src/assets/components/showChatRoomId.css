@@ -1,0 +1,19 @@
+.showChatId {
+    background-color: #fff;
+    color: #000;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    display: block;
+    width: 160px;
+    text-align: left;
+  }
+  
+  .showChatId:hover {
+    border: none;
+    background-color: #D9D9D9;
+  }
+  
+  .showChatId:focus {
+    outline: none;
+  }

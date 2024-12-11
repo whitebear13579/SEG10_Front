@@ -10,7 +10,7 @@ function ChatMessage({ chat }) {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
+  const [isChatInfoOpen, setChatInfoOpen] = useState(false);
   const messageListRef = useRef(null);
 
   // Fetch messages and members on initial render
@@ -71,6 +71,7 @@ function ChatMessage({ chat }) {
       }
     };
 
+
     fetchAllData();
   }, [chat.Contents, chat.Members]);
 
@@ -82,6 +83,7 @@ function ChatMessage({ chat }) {
   }, [messages]);
 
   // Handle sending a new message
+
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
 
@@ -91,6 +93,7 @@ function ChatMessage({ chat }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: user.id, content: newMessage }),
       });
+
 
       if (response.ok) {
         const data = await response.json();
@@ -123,9 +126,18 @@ function ChatMessage({ chat }) {
       ) : (
         <>
           <div className="chat-header">
-            <img src="images/penguin-png.png" alt="penguin" className="headerAvatar" />
+            <img
+              src="images/penguin-png.png"
+              alt="penguin"
+              className="headerAvatar"
+            />
             <span>{chat.Name}</span>
-            <ChatInfo />
+            <button
+              onClick={() => setChatInfoOpen(true)}
+              className="chatInfoButton"
+            >
+              <box-icon type="solid" name="edit"></box-icon>
+            </button>
           </div>
 
           <hr className="headerLine" />
@@ -158,6 +170,10 @@ function ChatMessage({ chat }) {
               <box-icon type="solid" name="send"></box-icon>
             </button>
           </div>
+          <ChatInfo
+            isChatInfoOpen={isChatInfoOpen}
+            onCloseChatInfo={() => setChatInfoOpen(false)}
+          ></ChatInfo>
         </>
       )}
     </div>

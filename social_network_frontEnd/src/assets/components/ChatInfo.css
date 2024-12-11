@@ -1,6 +1,19 @@
-.chatInfoButton {
-    background-color: #FFFFFF;
+.chatInfo-overlay {
+    z-index: 1000;
     position: fixed;
-    right: 0;
+    right: 1vw;
+    top: 5vh;
+    border: 0.5px solid #000;
+    border-radius: 5px;
+  }
+  
+  .chatInfo-content {
+    background: white;
+    width: 160px;
+  }
+  
+  .chatInfo-content hr {
+    position: relative;
     top: 0;
-}
+  }
+  

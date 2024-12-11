@@ -132,7 +132,7 @@ function ChatMessage({ chat }) {
           <div className="chat-messages" ref={messageListRef}>
             {messages.map((message) => {
               const member = members.find((m) => m.id === message.sender) || {};
-              console.log(member);
+              console.log(message);
               return (
                 <div key={message.id} className="chatMessages">
                   <img

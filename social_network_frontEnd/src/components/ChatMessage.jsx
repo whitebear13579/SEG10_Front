@@ -3,6 +3,9 @@ import { AuthContext } from "../context/AuthContext";
 import ChatInfo from "./ChatInfo";
 import "boxicons";
 import "../assets/components/chatMessage.css";
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:8080');
 
 function ChatMessage({ chat }) {
   const { user } = useContext(AuthContext);
@@ -19,7 +22,7 @@ function ChatMessage({ chat }) {
       try {
         if (chat.Contents && chat.Contents.length > 0) {
             const fetchedMessages = [];
-            
+            console.log('get message');
             for (const msgId of chat.Contents) {
               try {
                 const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg-get", {
@@ -52,6 +55,7 @@ function ChatMessage({ chat }) {
     getMsgs();
     
   }, [chat]);
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (messageListRef.current) {
@@ -61,11 +65,13 @@ function ChatMessage({ chat }) {
 
     return () => clearTimeout(timeoutId); // Cleanup on unmount
   }, []);
+
   useEffect(() => {
     if (messageListRef.current) {
       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
     }
   }, [messages]);
+
   //long polling
   useEffect(() => {
     const fetchMessages = async () => {
@@ -106,7 +112,33 @@ function ChatMessage({ chat }) {
     fetchMessages();
   }, [chat.Contents]);
 
-  
+  useEffect(() => {
+    // 加入新房間
+    if (chat) {
+      socket.emit('join_room', chat.ID);
+      console.log('join ', chat.ID);
+    }
+
+    // 接收訊息
+    const handleReceiveMessage = (data) => {
+      console.log('handle recieve');
+      console.log(data);
+      
+      setMessages((prev) => {
+        const updatedMessages = [...prev, data];
+        console.log('Updated messages:', updatedMessages); // 查看更新後的資料
+        return updatedMessages;
+      });
+      
+    };
+
+    socket.on('receive_message', handleReceiveMessage);
+
+    return () => {
+      socket.off('receive_message', handleReceiveMessage); // 清理監聽器
+    };
+  }, [chat.ID]);
+
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
 
@@ -119,8 +151,9 @@ function ChatMessage({ chat }) {
       if(response.ok){
         
         const data = await response.json();
+        console.log('print data');
         console.log(data);
-        setMessages((prev) => [...prev, data]);
+        //setMessages((prev) => [...prev, data]);
         try {
             const response2 = await fetch("https://swep.hnd1.zeabur.app/chat/api/msg-add", {
               method: "PATCH",
@@ -133,7 +166,12 @@ function ChatMessage({ chat }) {
               //delete msg from msg service(not done yet)
             }
             else{
-                // send msg to web socket
+              console.log('socket send');
+              const msgData = { room: chat.ID, author: user.id, msg: newMessage, data: data};
+              console.log('roomName:', chat.ID);
+              console.log(msgData);
+              console.log('massage: ', messages);
+              socket.emit('send_message', msgData);
             }
           } catch (error) {
             console.error("Error sending message:", error);

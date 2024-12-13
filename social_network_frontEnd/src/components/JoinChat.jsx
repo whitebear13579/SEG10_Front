@@ -2,14 +2,14 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import "../assets/components/JoinChat.css";
 
-const JoinChat = ({ onAddChat }) => {
+const JoinChat = ({ onJoinChat }) => {
   const [showModal, setShowModal] = useState(false);
   const [chatID, setChatID] = useState("");
   const { user } = useContext(AuthContext);
 
   const handleJoinChat = async () => {
     try {
-      // Example API call to save chat room in the backend
+      // Example API call to save chat room in the chat service
       const response = await fetch(
         "https://swep.hnd1.zeabur.app/chat/api/member-add",
         {
@@ -23,16 +23,16 @@ const JoinChat = ({ onAddChat }) => {
 
       if (response.ok) {
         const newChat = await response.json();
-        onAddChat(newChat); // Notify parent of new chat (object from chat service)
+        onJoinChat(newChat); // Notify parent of new chat (object from chat service)
+        setChatID(""); // Reset input
         setShowModal(false); // Close modal
-        setChatName(""); // Reset input
       } else {
         alert("create chat failed");
         console.error("Failed to create chat room.");
       }
     } catch (error) {
       console.error("Error:", error);
-    }
+    } 
   };
   return (
     <div>
@@ -43,12 +43,12 @@ const JoinChat = ({ onAddChat }) => {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <h2>Join Chat with email!!</h2>
+            <h2>Join Chat with chat ID</h2>
             <input
               type="text"
               value={chatID}
               onChange={(e) => setChatID(e.target.value)}
-              placeholder="Enter email"
+              placeholder="Enter ID"
             />
             <button onClick={handleJoinChat}>Join Chat</button>
             <button onClick={() => setShowModal(false)}>Cancel</button>

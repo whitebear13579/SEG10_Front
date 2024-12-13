@@ -4,7 +4,7 @@ import "../assets/components/ChatInfo.css";
 import ShowChatRoomId from "./ShowChatRoomId";
 import EditChatRoom from "./EditChatRoom";
 import DeleteChatRoom from "./DeleteChatRoom";
-const ChatInfo = ({ isChatInfoOpen, onCloseChatInfo }) => {
+const ChatInfo = ({ isChatInfoOpen, onCloseChatInfo, chat }) => {
   if (!isChatInfoOpen) return null;
   const { user } = useContext(AuthContext);
   const ChatInfoCloseRef = useRef(null)
@@ -24,7 +24,7 @@ const ChatInfo = ({ isChatInfoOpen, onCloseChatInfo }) => {
     <div>
       <div className="chatInfo-overlay">
         <div className="chatInfo-content" ref={ChatInfoCloseRef}>
-        <ShowChatRoomId />
+        <ShowChatRoomId chat={chat} />
         <hr />
         <EditChatRoom />
         <hr />

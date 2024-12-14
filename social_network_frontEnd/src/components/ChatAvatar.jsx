@@ -6,7 +6,7 @@ import ChatMessage from "./ChatMessage"; // Import ChatMessage
 import "../assets/components/ChatAvatar.css";
 import { AuthContext } from "../context/AuthContext";
 
-function ChatAvatar({ onSelectChat }) {
+function ChatAvatar({onSelectChat }) {
   const { user, updateUser } = useContext(AuthContext);
   const [chatRoomsID, setChatRoomsID] = useState(user?.chats || []);
   const [chatRooms, setChatRooms] = useState([]); // Array of chat details
@@ -38,6 +38,34 @@ function ChatAvatar({ onSelectChat }) {
       }
 
       setChatRooms(chatDetails); // Update chatRooms only after all data is fetched
+
+    } catch (error) {
+      console.error("Error fetching chat details:", error);
+    }
+  };
+
+  const UpdateChatDetails = async (upadtechat) => {
+    console.log('Update Chat Details')
+    try {
+      const response = await fetch(
+        `https://swep.hnd1.zeabur.app/chat/api/chat-get`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: upadtechat.ID }),
+        }
+      );
+
+      if (!response.ok) {
+        console.error(`Failed to fetch chat info for ID: ${upadtechat.ID}`);
+      }else{
+        const chatDetail = await response.json(); // Chat detail object
+        if(upadtechat != chatDetail) onSelectChat(chatDetail);
+        console.log('Upadate Chat Contents');
+        console.log(upadtechat.Contents);
+      }
     } catch (error) {
       console.error("Error fetching chat details:", error);
     }
@@ -189,7 +217,7 @@ function ChatAvatar({ onSelectChat }) {
       {/* Display chat names */}
       {chatRooms.map((chat) => (
         <div key={chat.id}>
-          <button className="chat" onClick={() => onSelectChat(chat)}>
+          <button className="chat" onClick={() => UpdateChatDetails(chat)}>
             <img src="penguin-png.png" alt="avatar" />
             <span>{chat.Name} {/* Display chat name */}</span>
               <p>Hello world!</p>
@@ -214,5 +242,3 @@ function ChatAvatar({ onSelectChat }) {
 }
 
 export default ChatAvatar;
-
-//123

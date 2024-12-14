@@ -3,8 +3,11 @@ import { AuthContext } from "../context/AuthContext";
 import ChatInfo from "./ChatInfo";
 import "boxicons";
 import "../assets/components/chatMessage.css";
+import io from 'socket.io-client';
 
-function ChatMessage({ chat }) {
+const socket = io('http://localhost:8080');
+
+function ChatMessage({ chat, chatfunc }) {
   const { user } = useContext(AuthContext);
   const [members, setMembers] = useState([user]);
   const [loading, setLoading] = useState(true);
@@ -13,76 +16,113 @@ function ChatMessage({ chat }) {
   const [isChatInfoOpen, setChatInfoOpen] = useState(false);
   const messageListRef = useRef(null);
 
-  // Fetch messages and members on initial render
-  useEffect(() => {
-    const fetchAllData = async () => {
-      try {
-        setLoading(true);
 
-        // Fetch messages
-        const fetchedMessages = await Promise.all(
-          chat.Contents?.map(async (msgId) => {
-            try {
-              const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg-get", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id: msgId }),
-              });
-              if (response.ok) {
-                return response.json();
-              } else {
-                console.error(`Failed to fetch message with ID ${msgId}`);
-                return null;
-              }
-            } catch (error) {
-              console.error(`Error fetching message with ID ${msgId}:`, error);
-              return null;
-            }
-          }) || []
-        );
-        setMessages(fetchedMessages.filter(Boolean));
+  const fetchMessage = async (msgId) => {
+    try {
+      const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg-get", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: msgId }),
+      });
 
-        // Fetch members
-        const fetchedUsers = await Promise.all(
-          chat.Members?.map(async (memID) => {
-            try {
-              const response = await fetch("https://swep.hnd1.zeabur.app/user/api/user-get", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id: memID }),
-              });
-              if (response.ok) {
-                return response.json();
-              } else {
-                console.error(`Failed to fetch user with ID ${memID}`);
-                return null;
-              }
-            } catch (error) {
-              console.error(`Error fetching user with ID ${memID}:`, error);
-              return null;
-            }
-          }) || []
-        );
-        setMembers(fetchedUsers.filter(Boolean));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
+      if (response.ok) {
+        return await response.json();
+      } else {
+        console.error(`Failed to fetch message with ID ${msgId}:`, await response.text());
+        return null;
       }
+    } catch (error) {
+      console.error(`Error fetching message with ID ${msgId}:`, error);
+      return null;
+    }
+  };
+
+  const getMsgs = async () => {
+    console.log('initial message');
+    try {
+      if (chat.Contents && chat.Contents.length > 0) {
+        const fetchedMessages = [];
+        console.log('get message');
+        console.log('user: ', user.id);
+        console.log('room: ', chat.ID);
+        console.log(chat.Contents);
+        for (const msgId of chat.Contents) {
+          console.log(msgId);
+          const message = await fetchMessage(msgId);  // 使用公共函式
+          if (message) {
+            fetchedMessages.push(message);
+          }
+        }
+        setMessages(fetchedMessages);  // 更新訊息
+      } else {
+        console.log("No messages to fetch.");
+
+      }
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //initial request
+  useEffect(() => {
+    const execute = async () => {
+      setMessages([]); 
+      await getMsgs();
     };
+  
+    execute();
+  }, [chat]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (messageListRef.current) {
+        messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+      }
+    }, 0); // 0ms delay, but ensures it runs after DOM update
+
+    return () => clearTimeout(timeoutId); // Cleanup on unmount
+  }, []);
 
 
-    fetchAllData();
-  }, [chat.Contents, chat.Members]);
-
-  // Scroll to the bottom of the message list when messages change
   useEffect(() => {
     if (messageListRef.current) {
       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
     }
   }, [messages]);
 
-  // Handle sending a new message
+
+  useEffect(() => {
+    if (chat) {
+      socket.disconnect();
+      socket.connect();
+      socket.emit('join_room', chat.ID);
+      console.log('join ', chat.ID);
+      console.log(chat.Contents);
+    }
+
+    // 接收訊息
+    const handleReceiveMessage = (data) => {
+      console.log('handle recieve');
+      console.log(data);
+      
+      setMessages((prev) => {
+        const updatedMessages = [...prev, data];
+        console.log('Updated messages:', updatedMessages);
+        return updatedMessages;
+      });
+
+      console.log(chat.Contents);
+    };
+
+    socket.on('receive_message', handleReceiveMessage);
+
+    return () => {
+      socket.off('receive_message', handleReceiveMessage); // 清理監聽器
+    };
+  }, [chat]);
+
 
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
@@ -97,20 +137,34 @@ function ChatMessage({ chat }) {
 
       if (response.ok) {
         const data = await response.json();
-        setMessages((prev) => [...prev, data]);
+        console.log('print data');
+        console.log(data);
+        try {
+            const response2 = await fetch("https://swep.hnd1.zeabur.app/chat/api/msg-add", {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id: chat.ID, msg_id: data.id }),
+            });
+      
+            if (!response2.ok) {
+              console.error("Failed to store message to chatroom:", await response2.text());
+              //delete msg from msg service(not done yet)
+            }
+            else{
+              console.log('socket send');
+              const msgData = { room: chat.ID, author: user.id, msg: newMessage, data: data};
+              console.log('roomName:', chat.ID);
+              console.log(msgData);
+              console.log('massage: ', messages);
+              socket.emit('send_message', msgData);
+            }
+          } catch (error) {
+            console.error("Error sending message:", error);
+          }
+      }
+      if (!response.ok) {
+        console.error("Failed to send message:", await response.text());
 
-        // Add the new message to the chat
-        const addToChatResponse = await fetch("https://swep.hnd1.zeabur.app/chat/api/msg-add", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: chat.ID, msg_id: data.id }),
-        });
-
-        if (!addToChatResponse.ok) {
-          console.error("Failed to add message to chat:", await addToChatResponse.text());
-        }
-      } else {
-        console.error("Failed to create message:", await response.text());
       }
     } catch (error) {
       console.error("Error sending message:", error);
@@ -164,6 +218,11 @@ function ChatMessage({ chat }) {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="傳送訊息..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  sendMessage();
+                }
+              }}
             />
             <button className="send-button" onClick={sendMessage}>
               <box-icon type="solid" name="send"></box-icon>

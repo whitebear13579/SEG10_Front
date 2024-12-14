@@ -1,4 +1,4 @@
-import React, { useContext, useState,useEffect,useRef } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import "../assets/components/ChatInfo.css";
 import ShowChatRoomId from "./ShowChatRoomId";
@@ -8,6 +8,7 @@ const ChatInfo = ({ isChatInfoOpen, onCloseChatInfo, chat }) => {
   if (!isChatInfoOpen) return null;
   const { user } = useContext(AuthContext);
   const ChatInfoCloseRef = useRef(null)
+  const [showBlackHr, setShowBlackHr] = useState(false);
   const closeFloatChatInfo = (event) => {
     if(ChatInfoCloseRef.current && !ChatInfoCloseRef.current.contains(event.target)){
       onCloseChatInfo();
@@ -24,11 +25,11 @@ const ChatInfo = ({ isChatInfoOpen, onCloseChatInfo, chat }) => {
     <div>
       <div className="chatInfo-overlay">
         <div className="chatInfo-content" ref={ChatInfoCloseRef}>
-        <ShowChatRoomId chat={chat} />
-        <hr />
-        <EditChatRoom />
-        <hr />
-        <DeleteChatRoom />
+          <ShowChatRoomId chat={chat} />
+          <hr className="line"/>
+          <EditChatRoom />
+          <hr className="line"/>
+          <DeleteChatRoom />
         </div>
       </div>
     </div>

@@ -21,9 +21,9 @@ function HomePage() {
   return (
     <> 
         <div className="container">
-          <ChatAvatar onSelectChat={setSelectedChat} /> {/* Pass function to select chat */}
+          <ChatAvatar SelectChat={selectedChat} onSelectChat={setSelectedChat} /> {/* Pass function to select chat */}
           {selectedChat ? (
-            <ChatMessage chat={selectedChat} /> 
+            <ChatMessage chat={selectedChat} chatfunc={setSelectedChat}/> 
           ) : (
             <div>Please select a chat room.</div>
           )}

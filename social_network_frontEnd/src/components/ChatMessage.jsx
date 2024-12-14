@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 
 const socket = io('http://localhost:8080');
 
-function ChatMessage({ chat }) {
+function ChatMessage({ chat, chatfunc }) {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
@@ -15,36 +15,80 @@ function ChatMessage({ chat }) {
 
   const messageListRef = useRef(null);
 
+  
+
+  // 公共函式，負責請求訊息
+  const fetchMessage = async (msgId) => {
+    try {
+      const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg-get", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: msgId }),
+      });
+
+      if (response.ok) {
+        return await response.json();
+      } else {
+        console.error(`Failed to fetch message with ID ${msgId}:`, await response.text());
+        return null;
+      }
+    } catch (error) {
+      console.error(`Error fetching message with ID ${msgId}:`, error);
+      return null;
+    }
+  };
+
+  const getMsgs = async () => {
+    console.log('initial message');
+    try {
+      if (chat.Contents && chat.Contents.length > 0) {
+        const fetchedMessages = [];
+        console.log('get message');
+        console.log('user: ', user.id);
+        console.log('room: ', chat.ID);
+        console.log(chat.Contents);
+        for (const msgId of chat.Contents) {
+          console.log(msgId);
+          const message = await fetchMessage(msgId);  // 使用公共函式
+          if (message) {
+            fetchedMessages.push(message);
+          }
+        }
+        setMessages(fetchedMessages);  // 更新訊息
+      } else {
+        console.log("No messages to fetch.");
+      }
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   //initial request
   useEffect(() => {
-    setMessages([]);
-    const getMsgs = async () => {
+    const execute = async () => {
+      setMessages([]); 
+      await getMsgs();
+    };
+  
+    execute();
+  }, [chat]);
+
+  // 長輪詢的 useEffect
+  useEffect(() => {
+    const fetchMessages = async () => {
+      console.log('fetch message');
       try {
         if (chat.Contents && chat.Contents.length > 0) {
-            const fetchedMessages = [];
-            console.log('get message');
-            for (const msgId of chat.Contents) {
-              try {
-                const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg-get", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ id: msgId }),
-                });
-          
-                if (response.ok) {
-                  const message = await response.json();
-                  fetchedMessages.push(message);
-                } else {
-                  console.error(`Failed to fetch message with ID ${msgId}:`, await response.text());
-                }
-              } catch (error) {
-                console.error(`Error fetching message with ID ${msgId}:`, error);
-              }
-            }
-            setMessages(fetchedMessages);
-          } else {
-            console.log("No messages to fetch.");
-          }
+          const fetchedMessages = await Promise.all(
+            chat.Contents.map(async (messageId) => {
+              const message = await fetchMessage(messageId);  // 使用公共函式
+              return message;  // 可以返回 null，表示請求失敗
+            })
+          );
+          setMessages(fetchedMessages.filter(Boolean));  // 移除 null 值（請求失敗的訊息）
+        }
       } catch (error) {
         console.error("Error fetching messages:", error);
       } finally {
@@ -52,9 +96,8 @@ function ChatMessage({ chat }) {
       }
     };
 
-    getMsgs();
-    
-  }, [chat]);
+    //fetchMessages();
+  }, [chat.Contents]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -72,51 +115,15 @@ function ChatMessage({ chat }) {
     }
   }, [messages]);
 
-  //long polling
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        if (chat.Contents && chat.Contents.length > 0) {
-          const fetchedMessages = await Promise.all(
-            chat.Contents.map(async (messageId) => {
-              try {
-                const response = await fetch(
-                  "https://swep.hnd1.zeabur.app/msg/api/msg-get",
-                  {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ id: messageId }),
-                  }
-                );
-                if (response.ok) {
-                  return response.json();
-                } else {
-                  console.error(`Failed to fetch message with ID: ${messageId}`, await response.text());
-                  return null;
-                }
-              } catch (error) {
-                console.error("Error fetching message ID:", messageId, error);
-                return null;
-              }
-            })
-          );
-          setMessages(fetchedMessages.filter(Boolean)); // Remove null (failed fetches)
-        }
-      } catch (error) {
-        console.error("Error fetching messages:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMessages();
-  }, [chat.Contents]);
 
   useEffect(() => {
     // 加入新房間
     if (chat) {
+      socket.disconnect();
+      socket.connect();
       socket.emit('join_room', chat.ID);
       console.log('join ', chat.ID);
+      console.log(chat.Contents);
     }
 
     // 接收訊息
@@ -129,7 +136,8 @@ function ChatMessage({ chat }) {
         console.log('Updated messages:', updatedMessages); // 查看更新後的資料
         return updatedMessages;
       });
-      
+
+      console.log(chat.Contents);
     };
 
     socket.on('receive_message', handleReceiveMessage);
@@ -137,7 +145,7 @@ function ChatMessage({ chat }) {
     return () => {
       socket.off('receive_message', handleReceiveMessage); // 清理監聽器
     };
-  }, [chat.ID]);
+  }, [chat]);
 
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
@@ -171,6 +179,10 @@ function ChatMessage({ chat }) {
               console.log('roomName:', chat.ID);
               console.log(msgData);
               console.log('massage: ', messages);
+              
+              //const newchat = chat;
+              //newchat.Contents.push(data.id);
+              //chatfunc(newchat);
               socket.emit('send_message', msgData);
             }
           } catch (error) {

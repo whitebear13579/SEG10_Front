@@ -42,12 +42,12 @@ function ChatMessage({ chat, chatfunc }) {
     try {
       if (chat.Contents && chat.Contents.length > 0) {
         const fetchedMessages = [];
-        console.log('get message');
-        console.log('user: ', user.id);
-        console.log('room: ', chat.ID);
-        console.log(chat.Contents);
+        // console.log('get message');
+        // console.log('user: ', user.id);
+        // console.log('room: ', chat.ID);
+        // console.log(chat.Contents);
         for (const msgId of chat.Contents) {
-          console.log(msgId);
+          // console.log(msgId);
           const message = await fetchMessage(msgId);  // 使用公共函式
           if (message) {
             fetchedMessages.push(message);
@@ -98,14 +98,14 @@ function ChatMessage({ chat, chatfunc }) {
       socket.disconnect();
       socket.connect();
       socket.emit('join_room', chat.ID);
-      console.log('join ', chat.ID);
-      console.log(chat.Contents);
+      // console.log('join ', chat.ID);
+      // console.log(chat.Contents);
     }
 
     // 接收訊息
     const handleReceiveMessage = (data) => {
-      console.log('handle recieve');
-      console.log(data);
+      // console.log('handle recieve');
+      // console.log(data);
       
       setMessages((prev) => {
         const updatedMessages = [...prev, data];
@@ -113,7 +113,7 @@ function ChatMessage({ chat, chatfunc }) {
         return updatedMessages;
       });
 
-      console.log(chat.Contents);
+      // console.log(chat.Contents);
     };
 
     socket.on('receive_message', handleReceiveMessage);
@@ -153,9 +153,9 @@ function ChatMessage({ chat, chatfunc }) {
             else{
               console.log('socket send');
               const msgData = { room: chat.ID, author: user.id, msg: newMessage, data: data};
-              console.log('roomName:', chat.ID);
-              console.log(msgData);
-              console.log('massage: ', messages);
+              // console.log('roomName:', chat.ID);
+              // console.log(msgData);
+              // console.log('massage: ', messages);
               socket.emit('send_message', msgData);
             }
           } catch (error) {

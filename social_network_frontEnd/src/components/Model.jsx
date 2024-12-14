@@ -2,7 +2,7 @@ import React, { useEffect,useRef } from "react";
 import "../assets/components/modal.css";
 import AddChat from "./AddChat";
 import JoinChat from "./JoinChat";
-const Modal = ({ isOpen, onClose, children , onAddChat}) => {
+const Modal = ({ isOpen, onClose, children , onAddChat, onJoinChat}) => {
   if (!isOpen) return null;
   const modalCloseRef = useRef(null)
   const closeFloatPlus = (event) => {
@@ -22,7 +22,7 @@ const Modal = ({ isOpen, onClose, children , onAddChat}) => {
       <div className="modal-content" ref={modalCloseRef}>
         <AddChat onAddChat={onAddChat}/>
         <hr />
-        <JoinChat />
+        <JoinChat onJoinChat={onJoinChat}/>
       </div>
     </div>
   );

@@ -5,22 +5,30 @@ import "../assets/components/showChatRoomId.css";
 const ShowChatRoomId = (chat) => {
   const { user } = useContext(AuthContext); // You can use `user` if needed elsewhere.
   const id = chat.chat.ID;
-  const [showId, setShowId] = useState(false); // State to toggle ID visibility
-
-  const handleButtonClick = () => {
-    setShowId((prev) => !prev); // Toggle the state
-  };
+  const [showRoomID, setShowRoomID] = useState(false);
 
   return (
     <div>
       <button
         style={{ cursor: "pointer" }}
         className="showChatId"
-        onClick={handleButtonClick}
+        onClick={() => setShowRoomID(true)}
       >
-        {showId ? "隱藏聊天室ID" : "顯示聊天室ID"}
+        顯示聊天室ID
       </button>
-      {showId && <p className="chatIdDisplay">聊天室ID: {id}</p>}
+
+      {showRoomID && (
+        <div className="showRoomID">
+          <div className="showRoomIDcontent">
+            <h2>顯示聊天室ID</h2>
+            <p>聊天室ID:</p>
+            <span>{id}</span>
+            <button onClick={() => setShowRoomID(false)} className="closeID">
+              關閉視窗
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

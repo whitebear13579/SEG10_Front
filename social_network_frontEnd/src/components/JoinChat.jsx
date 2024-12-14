@@ -42,16 +42,17 @@ const JoinChat = ({ onJoinChat }) => {
 
       {showModal && (
         <div className="modal">
-          <div className="modal-content">
-            <h2>Join Chat with chat ID</h2>
+          <div className="joinChatroomcontent">
+            <h2>加入聊天室</h2>
+            <p>聊天室ID:</p>
             <input
               type="text"
               value={chatID}
               onChange={(e) => setChatID(e.target.value)}
               placeholder="Enter ID"
             />
-            <button onClick={handleJoinChat}>Join Chat</button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
+            <button onClick={() => setShowModal(false)} className="joinCancel">取消</button>
+            <button onClick={handleJoinChat} className="joinAccept">加入聊天室</button>
           </div>
         </div>
       )}

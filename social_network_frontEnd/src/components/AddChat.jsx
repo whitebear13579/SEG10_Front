@@ -47,16 +47,18 @@ const AddChat = ({ onAddChat }) => {
 
       {showModal && (
         <div className="modal">
-          <div className="modal-content">
-            <h2>Create Chat Room</h2>
+          <div className="createChatcontent">
+            <h2>創建聊天室</h2>
+            <p>聊天室名稱:</p>
             <input
               type="text"
               value={chatName}
               onChange={(e) => setChatName(e.target.value)}
               placeholder="Enter chat name"
             />
-            <button onClick={handleAddChat}>Create Chat</button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
+            <button onClick={() => setShowModal(false)} className="createCancel">取消</button>
+            <button onClick={handleAddChat} className="createAccept">創建聊天室</button>
+            
           </div>
         </div>
       )}

@@ -94,20 +94,34 @@ function ChatMessage({ chat }) {
 
       if (response.ok) {
         const data = await response.json();
-        setMessages((prev) => [...prev, data]);
+        console.log('print data');
+        console.log(data);
+        try {
+            const response2 = await fetch("https://swep.hnd1.zeabur.app/chat/api/msg-add", {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id: chat.ID, msg_id: data.id }),
+            });
+      
+            if (!response2.ok) {
+              console.error("Failed to store message to chatroom:", await response2.text());
+              //delete msg from msg service(not done yet)
+            }
+            else{
+              console.log('socket send');
+              const msgData = { room: chat.ID, author: user.id, msg: newMessage, data: data};
+              //console.log('roomName:', chat.ID);
+              //console.log(msgData);
+              //console.log('massage: ', messages);
+              socket.emit('send_message', msgData);
+            }
+          } catch (error) {
+            console.error("Error sending message:", error);
+          }
+      }
+      if (!response.ok) {
+        console.error("Failed to send message:", await response.text());
 
-        // Add the new message to the chat
-        const addToChatResponse = await fetch("https://swep.hnd1.zeabur.app/chat/api/msg-add", {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: chat.ID, msg_id: data.id }),
-        });
-
-        if (!addToChatResponse.ok) {
-          console.error("Failed to add message to chat:", await addToChatResponse.text());
-        }
-      } else {
-        console.error("Failed to create message:", await response.text());
       }
     } catch (error) {
       console.error("Error sending message:", error);
@@ -140,6 +154,7 @@ function ChatMessage({ chat }) {
                     alt={member.name || "Unknown"}
                     className="you"
                   />
+                  {console.log(member)}
                   <span>
                     {message.content}....{message.sender || "Unknown"}
                   </span>

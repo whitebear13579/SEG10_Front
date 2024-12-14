@@ -14,3 +14,73 @@
 .joinChatroom:focus {
   outline: none;
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinChatroomcontent {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  width: 40vw;
+  height: 35vh;
+}
+.joinChatroomcontent h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+.joinChatroomcontent p {
+  text-align: left;
+  font-size: 1.25em;
+}
+.joinChatroomcontent input {
+  display: block;
+  width: 100%;
+  background-color: #FFF;
+  margin-bottom: 20px;
+  padding: 8px;
+  border-radius: 5px;
+  outline: none;
+  color: #000;
+}
+.joinCancel {
+  margin: 5px;
+  padding: 8px 16px;
+  background-color: #DFDFDF;
+  color: #000;
+  width: 125px;
+  outline: none;
+  border: none;
+}
+.joinCancel:focus {
+  outline: none;
+}
+.joinCancel:hover {
+  outline: none;
+}
+.joinAccept {
+  margin: 5px;
+  padding: 8px 16px;
+  background-color: #247360;
+  color: #fff;
+  width: 125px;
+  outline: none;
+  border: none;
+}
+.joinAccept:focus {
+  outline: none;
+}
+.joinAccept:hover {
+  outline: none;
+  background-color: #1f5e53;
+}

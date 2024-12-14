@@ -37,6 +37,68 @@ function ChatMessage({ chat, chatfunc }) {
     }
   };
 
+  // Fetch messages and members on initial render
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        setLoading(true);
+
+        // Fetch messages
+        const fetchedMessages = await Promise.all(
+          chat.Contents?.map(async (msgId) => {
+            try {
+              const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg-get", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: msgId }),
+              });
+              if (response.ok) {
+                return response.json();
+              } else {
+                console.error(`Failed to fetch message with ID ${msgId}`);
+                return null;
+              }
+            } catch (error) {
+              console.error(`Error fetching message with ID ${msgId}:`, error);
+              return null;
+            }
+          }) || []
+        );
+        setMessages(fetchedMessages.filter(Boolean));
+
+        // Fetch members
+        const fetchedUsers = await Promise.all(
+          chat.Members?.map(async (memID) => {
+            try {
+              const response = await fetch("https://swep.hnd1.zeabur.app/user/api/user-get", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: memID }),
+              });
+              if (response.ok) {
+                return response.json();
+              } else {
+                console.error(`Failed to fetch user with ID ${memID}`);
+                return null;
+              }
+            } catch (error) {
+              console.error(`Error fetching user with ID ${memID}:`, error);
+              return null;
+            }
+          }) || []
+        );
+        setMembers(fetchedUsers.filter(Boolean));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
+    fetchAllData();
+  }, [chat.Contents, chat.Members]);
+
   const getMsgs = async () => {
     console.log('initial message');
     try {

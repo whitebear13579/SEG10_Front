@@ -15,9 +15,6 @@ function ChatMessage({ chat, chatfunc }) {
 
   const messageListRef = useRef(null);
 
-  
-
-  // 公共函式，負責請求訊息
   const fetchMessage = async (msgId) => {
     try {
       const response = await fetch("https://swep.hnd1.zeabur.app/msg/api/msg-get", {
@@ -75,30 +72,6 @@ function ChatMessage({ chat, chatfunc }) {
     execute();
   }, [chat]);
 
-  // 長輪詢的 useEffect
-  useEffect(() => {
-    const fetchMessages = async () => {
-      console.log('fetch message');
-      try {
-        if (chat.Contents && chat.Contents.length > 0) {
-          const fetchedMessages = await Promise.all(
-            chat.Contents.map(async (messageId) => {
-              const message = await fetchMessage(messageId);  // 使用公共函式
-              return message;  // 可以返回 null，表示請求失敗
-            })
-          );
-          setMessages(fetchedMessages.filter(Boolean));  // 移除 null 值（請求失敗的訊息）
-        }
-      } catch (error) {
-        console.error("Error fetching messages:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    //fetchMessages();
-  }, [chat.Contents]);
-
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (messageListRef.current) {
@@ -117,7 +90,6 @@ function ChatMessage({ chat, chatfunc }) {
 
 
   useEffect(() => {
-    // 加入新房間
     if (chat) {
       socket.disconnect();
       socket.connect();
@@ -133,7 +105,7 @@ function ChatMessage({ chat, chatfunc }) {
       
       setMessages((prev) => {
         const updatedMessages = [...prev, data];
-        console.log('Updated messages:', updatedMessages); // 查看更新後的資料
+        console.log('Updated messages:', updatedMessages);
         return updatedMessages;
       });
 
@@ -161,7 +133,6 @@ function ChatMessage({ chat, chatfunc }) {
         const data = await response.json();
         console.log('print data');
         console.log(data);
-        //setMessages((prev) => [...prev, data]);
         try {
             const response2 = await fetch("https://swep.hnd1.zeabur.app/chat/api/msg-add", {
               method: "PATCH",
@@ -179,10 +150,6 @@ function ChatMessage({ chat, chatfunc }) {
               console.log('roomName:', chat.ID);
               console.log(msgData);
               console.log('massage: ', messages);
-              
-              //const newchat = chat;
-              //newchat.Contents.push(data.id);
-              //chatfunc(newchat);
               socket.emit('send_message', msgData);
             }
           } catch (error) {
@@ -228,6 +195,11 @@ function ChatMessage({ chat, chatfunc }) {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="傳送訊息..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  sendMessage();
+                }
+              }}
             />
             <button className="send-button" onClick={sendMessage}>
               <box-icon type="solid" name="send"></box-icon>

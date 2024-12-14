@@ -6,7 +6,7 @@ import ChatMessage from "./ChatMessage"; // Import ChatMessage
 import "../assets/components/ChatAvatar.css";
 import { AuthContext } from "../context/AuthContext";
 
-function ChatAvatar({ SelectChat, onSelectChat }) {
+function ChatAvatar({onSelectChat }) {
   const { user, updateUser } = useContext(AuthContext);
   const [chatRoomsID, setChatRoomsID] = useState(user?.chats || []);
   const [chatRooms, setChatRooms] = useState([]); // Array of chat details
@@ -62,7 +62,6 @@ function ChatAvatar({ SelectChat, onSelectChat }) {
         console.error(`Failed to fetch chat info for ID: ${upadtechat.ID}`);
       }else{
         const chatDetail = await response.json(); // Chat detail object
-        //if(chat.Contents != chatDetail.Contents) chatfunc(chatDetail);
         if(upadtechat != chatDetail) onSelectChat(chatDetail);
         console.log('Upadate Chat Contents');
         console.log(upadtechat.Contents);
@@ -197,5 +196,3 @@ function ChatAvatar({ SelectChat, onSelectChat }) {
 }
 
 export default ChatAvatar;
-
-//123

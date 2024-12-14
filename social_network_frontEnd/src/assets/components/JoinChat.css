@@ -32,7 +32,7 @@
   padding: 15px;
   border-radius: 8px;
   text-align: center;
-  width: 40vw;
+  width: 36vw;
   height: 35vh;
 }
 .joinChatroomcontent h2 {
@@ -67,6 +67,7 @@
 }
 .joinCancel:hover {
   outline: none;
+  background-color: #D9D9D9;
 }
 .joinAccept {
   margin: 5px;

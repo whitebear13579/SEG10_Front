@@ -9,11 +9,13 @@ const socket = io('http://localhost:8080');
 
 function ChatMessage({ chat, chatfunc }) {
   const { user } = useContext(AuthContext);
+  const [members, setMembers] = useState([user]);
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
+  const [isChatInfoOpen, setChatInfoOpen] = useState(false);
   const messageListRef = useRef(null);
+
 
   const fetchMessage = async (msgId) => {
     try {
@@ -54,6 +56,7 @@ function ChatMessage({ chat, chatfunc }) {
         setMessages(fetchedMessages);  // 更新訊息
       } else {
         console.log("No messages to fetch.");
+
       }
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -81,6 +84,7 @@ function ChatMessage({ chat, chatfunc }) {
 
     return () => clearTimeout(timeoutId); // Cleanup on unmount
   }, []);
+
 
   useEffect(() => {
     if (messageListRef.current) {
@@ -119,6 +123,7 @@ function ChatMessage({ chat, chatfunc }) {
     };
   }, [chat]);
 
+
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
 
@@ -128,8 +133,9 @@ function ChatMessage({ chat, chatfunc }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: user.id, content: newMessage }),
       });
-      if(response.ok){
-        
+
+
+      if (response.ok) {
         const data = await response.json();
         console.log('print data');
         console.log(data);
@@ -158,11 +164,12 @@ function ChatMessage({ chat, chatfunc }) {
       }
       if (!response.ok) {
         console.error("Failed to send message:", await response.text());
+
       }
     } catch (error) {
       console.error("Error sending message:", error);
     }
-    
+
     setNewMessage("");
   };
 
@@ -170,24 +177,40 @@ function ChatMessage({ chat, chatfunc }) {
     <div className="chat-container">
       {loading ? (
         <p>Loading messages...</p>
-      ) :  (
+      ) : (
         <>
           <div className="chat-header">
-          <img src="images/penguin-png.png" alt="penguin" className="headerAvatar" />
+            <img
+              src="images/penguin-png.png"
+              alt="penguin"
+              className="headerAvatar"
+            />
             <span>{chat.Name}</span>
-            <ChatInfo />
+            <button
+              onClick={() => setChatInfoOpen(true)}
+              className="chatInfoButton"
+            >
+              <box-icon type="solid" name="edit"></box-icon>
+            </button>
           </div>
 
-          <hr className="headerLine"/>
+          <hr className="headerLine" />
           <div className="chat-messages" ref={messageListRef}>
-            {messages.map((message) => (
-              <div key={message.id} className="chatMessages">
-                <img src={user.picture} alt="you" className="you" />
-                <span>
-                  {message.content}....{message.sender}
-                </span>
-              </div>
-            ))}
+            {messages.map((message) => {
+              const member = members.find((m) => m.id === message.sender) || {};
+              return (
+                <div key={message.id} className="chatMessages">
+                  <img
+                    src={member.profile || "default-profile.png"}
+                    alt={member.name || "Unknown"}
+                    className="you"
+                  />
+                  <span>
+                    {message.content}....{message.sender || "Unknown"}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           <div className="chat-input">
             <input
@@ -205,8 +228,13 @@ function ChatMessage({ chat, chatfunc }) {
               <box-icon type="solid" name="send"></box-icon>
             </button>
           </div>
+          <ChatInfo
+            chat={chat}
+            isChatInfoOpen={isChatInfoOpen}
+            onCloseChatInfo={() => setChatInfoOpen(false)}
+          ></ChatInfo>
         </>
-      ) }
+      )}
     </div>
   );
 }

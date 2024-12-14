@@ -120,7 +120,6 @@ function ChatAvatar({onSelectChat }) {
 
         if (chatResponse.ok) {
           const newChatDetails = await chatResponse.json();
-          //setChatRooms((prev) => [...prev, newChatDetails]); // Add new chat details
         }
       } catch (error) {
         alert("Failed to add chat to user");
@@ -129,6 +128,55 @@ function ChatAvatar({onSelectChat }) {
     };
 
     UserAddChat();
+  };
+  const handleJoinChat = (newChat) => {
+    if (chatRoomsID.includes(newChat.ID)) {
+      console.log("JoinChat already exists");
+      return;
+    }
+    setChatRoomsID((prev) => [...prev, newChat.ID]);
+    updateUser(newChat.ID);
+
+    const UserJoinChat = async () => {
+      try {
+        const response = await fetch(
+          "https://swep.hnd1.zeabur.app/user/api/chat-add",
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ user_id: user.id, chat_id: newChat.ID }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to update backend");
+        }
+
+        // Fetch details of the new chat and update immediately
+        const chatResponse = await fetch(
+          `https://swep.hnd1.zeabur.app/chat/api/chat-get`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: newChat.ID }),
+          }
+        );
+
+        if (chatResponse.ok) {
+          const newChatDetails = await chatResponse.json();
+          console.log(newChatDetails);
+        }
+      } catch (error) {
+        alert("Failed to add chat to user");
+        console.error(error);
+      }
+    };
+
+    UserJoinChat();
   };
   const handleLogout = () => {
     logout(); // Clear user from context and localStorage
@@ -179,17 +227,15 @@ function ChatAvatar({onSelectChat }) {
       </div>
       <div className="homePageBottom">
         <img src="images/penguin-png.png" alt="Penguin" />
-        <div className="myName">王小明</div>
+        <div className="myName">{user.name}</div>
       </div>
       {/* Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onAddChat={handleAddChat}
+        onJoinChat={handleJoinChat}
       >
-        <h2>Primary Modal</h2>
-        <p>Nested content goes here.</p>
-        <button onClick={() => alert("Nested Action")}>Click Me</button>
       </Modal>
     </div>
   );

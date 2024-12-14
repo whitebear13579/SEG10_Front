@@ -35,16 +35,16 @@ export default function Login() {
     try {
       const user = await sendAPIRequest('user-get', 'POST', { id: email });
       console.log(user.id);
-      //const withPic = await sendAPIRequest('profile-url-upd', 'PATCH', {user_id: user.id, profile_url: picture});
-      //console.log(withPic);
+      const withPic = await sendAPIRequest('profile-url-upd', 'PATCH', {user_id: user.id, profile: picture});
+      console.log(withPic);
       login(user); // Update context
       navigate('/home'); // Navigate to home page
     } catch {
       console.log('User not found, adding user...');
       try {
         const newUser = await sendAPIRequest('user-add', 'POST', { id: email, name: name });
-        //const withPic = await sendAPIRequest('profile-url-upd', 'PATCH', {user_id: newUser.id, profile_url: picture});
-        //login(withPic); // Update context
+        const withPic = await sendAPIRequest('profile-url-upd', 'PATCH', {user_id: newUser.id, profile: picture});
+        login(withPic); // Update context
         navigate('/home'); // Navigate to home page
       } catch (error) {
         console.error('Error during user addition:', error);
